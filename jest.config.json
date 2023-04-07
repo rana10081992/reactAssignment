@@ -1,0 +1,11 @@
+{
+    "jest": {
+      "collectCoverage": true,
+      "collectCoverageFrom": ["./src/**"],
+      "coverageThreshold": {
+        "global": {
+          "lines": 90
+        }
+      }
+    }
+  }

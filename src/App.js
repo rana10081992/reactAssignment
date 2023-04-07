@@ -2,8 +2,6 @@ import './App.css';
 import { Link, Outlet } from 'react-router-dom';
 import React from 'react';
 
-// const store = configureStore();
-
 function App() {
   return (
     <div className="App">

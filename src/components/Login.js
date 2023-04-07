@@ -105,9 +105,9 @@ const Login = ({}) => {
             <div className="mt-6">
               <div className="relative">
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">
+                  {/* <span className="px-2 bg-white text-gray-500">
                     Or <Link to="signup"> Signup</Link>
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>

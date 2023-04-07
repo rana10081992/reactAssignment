@@ -90,9 +90,15 @@ export const fetchUserBytoken = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    loggedIn: '',
+    // add user through interface 
+    loggedIn: false,
     token: '',
     status: '',
+    documentId: '',
+    title: '',
+    name: '',
+    phoneNo: '',
+    author: '',
     msg: '',
     isFetching: false,
     isSuccess: false,
@@ -129,8 +135,16 @@ export const userSlice = createSlice({
       //   state.loggedIn = payload.email;
       //   state.token = payload.name;
       //   (state.msg = 'test'), (state.status = 200), (state.isFetching = false);
+      //add interface for json parsing
+      state.loggedIn = payload.loggedIn;
+      state.token = payload.token;
+      state.status = payload.status;
+      state.documentId = payload.documentId;
+      state.title = payload.title;
+      state.author = payload.author;
+      state.name = payload.name;
+      state.phoneNo = payload.phoneNo;
       state.msg = payload.msg;
-      state.msg = 'rana test';
       state.isSuccess = true;
       return state;
     },

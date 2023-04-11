@@ -4,6 +4,7 @@
         "es2021": true,
         "jest": true
     },
+    "parser": "babel-eslint",
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
@@ -21,9 +22,8 @@
     "rules": {
         "react/react-in-jsx-scope": "off",
         "prettier/prettier": ["error",{
-            "endOfLine": "auto",
-            "no-unused-vars": "off"}
-        ],
-        "no-unused-vars": "off"
+            "endOfLine": "auto"
+           }
+        ]
     }
 }

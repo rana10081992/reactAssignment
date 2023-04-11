@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react';
 
+// home component to display the home details
 const Home = () => {
+
+  // display profile to display the profile details
   const [displayProfile, setProfile] = useState(true);
+
+  // display profile to display the profile details
   const [userData, setUserData] = useState({});
+
+  // get Home data method to fetch the home user data
   const getHomeData = async () => {
     const res = await fetch('http://localhost:3000/home', {
       method: 'get',
       headers: {
         'Content-Type': 'application/json'
       }
-      // body: JSON.stringify()
     });
+    // check API response for user
     console.log('rana API res is... ', res);
+    // convert result to json
     const result = await res.json();
-    console.log('rana..... result is....', result);
     return result;
   };
 
+  // useEffect default method to do the action once render is complete
   useEffect(() => {
     getHomeData().then((res) => {
       console.log('rana 3333333 api res is.... ', res);
@@ -26,15 +34,17 @@ const Home = () => {
     });
   }, []);
 
-  console.log('rana home screen data is....', userData);
+  // method to set and display the user profile
   const setUserProfile = () => {
     setProfile(true);
   };
 
+  // method to set and display the products details
   const setProducts = () => {
     setProfile(false);
   };
 
+  // UI part
   return (
     <div>
       <div className="flex flex-coloumn align-item-center"></div>
@@ -56,31 +66,9 @@ const Home = () => {
               <span>User Name</span>
               {userData.name}
             </p>
-            <a href="#" className="btn btn-primary">
-              Go somewhere
-            </a>
           </div>
-          <div className="card-footer text-muted">2 days ago</div>
         </div>
       ) : (
-        // <div>
-        //   <div className="flex flex-coloumn align-item-center">
-        //     <span>documentId</span>
-        //     {userData.documentId}
-        //   </div>
-        //   <div className="flex flex-coloumn align-item-center">
-        //     <span>User Name</span>
-        //     {userData.name}
-        //   </div>
-        //   <div className="flex flex-coloumn align-item-center">
-        //     <span>Phone No</span>
-        //     {userData.phoneNo}
-        //   </div>
-        //   <div className="flex flex-coloumn align-item-center">
-        //     <span>User logged in msg: </span>
-        //     {userData.msg}
-        //   </div>
-        // </div>
         <div>
           <div className="flex flex-coloumn align-item-center">
             <span>Account Type one offered</span>

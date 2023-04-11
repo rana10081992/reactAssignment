@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 const Register = () => {
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
   const [documentId, setDocumentId] = useState(null);
   const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const getAllUsers = async () => {
+    const res = await fetch('http://localhost:3000/getAllUsers', {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log('rana API res is... ', res);
+    const result = await res.json();
+    console.log('rana..... result is....', result);
+    return result;
+  };
 
   const submitRegistration = (event) => {
     event.preventDefault();
@@ -24,10 +30,6 @@ const Register = () => {
       }
     });
   };
-
-  // const onSubmit = (data) => {
-  //   dispatch(signupUser(data));
-  // };
 
   const performSubmit = async () => {
     const res = await fetch('http://localhost:3000/user', {
@@ -45,10 +47,10 @@ const Register = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === 'firstName') {
-      setFirstName(value);
+      // setFirstName(value);
     }
     if (id === 'lastName') {
-      setLastName(value);
+      // setLastName(value);
     }
     if (id === 'documentId') {
       setDocumentId(value);
@@ -57,7 +59,7 @@ const Register = () => {
       setPassword(value);
     }
     if (id === 'confirmPassword') {
-      setConfirmPassword(value);
+      // setConfirmPassword(value);
     }
   };
 
@@ -128,38 +130,10 @@ const Register = () => {
           </div>
         </div>
         <div className="footer">
-          {/* <button type="submit" className="btn">
-          Register
-        </button> */}
           <button className="btn btn-primary">Register</button>
         </div>
       </form>
     </div>
-    // <div>
-    //   <h3>Register</h3>
-    //   <div className="flex flex-coloumn align-item-center"></div>
-    //   <label htmlFor="">Name</label>
-    //   <input
-    //     type="text"
-    //     placeholder="Name"
-    //     value={name}
-    //     onChange={(e) => setName(e.target.value)}></input>
-    //   <label htmlFor="">Dcoument Id</label>
-    //   <input
-    //     type="text"
-    //     placeholder="Document Id"
-    //     value={documentId}
-    //     onChange={(e) => setDocumentId(e.target.value)}></input>
-    //   <label htmlFor="">Password</label>
-    //   <input
-    //     type="password"
-    //     placeholder="Password"
-    //     value={password}
-    //     onChange={(e) => setPassword(e.target.value)}></input>
-    //   <button className="mt-3" onClick={registerHandle}>
-    //     Register
-    //   </button>
-    // </div>
   );
 };
 export default Register;

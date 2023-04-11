@@ -32,7 +32,7 @@ export const signupUser = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk('/login', async ({ email, password }, thunkAPI) => {
+export const loginUser = createAsyncThunk('/login', async (thunkAPI) => {
   try {
     console.log('rana loop coming here... ');
     const response = await fetch('http://localhost:3000/login', {
@@ -40,11 +40,6 @@ export const loginUser = createAsyncThunk('/login', async ({ email, password }, 
       headers: {
         'Content-Type': 'application/json'
       }
-      //,
-      //   body: JSON.stringify({
-      //     email,
-      //     password
-      //   })
     });
     let data = await response.json();
     console.log('response', data);
@@ -90,20 +85,22 @@ export const fetchUserBytoken = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    // add user through interface 
+    // add user through interface
+    userDetail:{
+      token: '',
+      status: '',
+      documentId: '',
+      title: '',
+      name: '',
+      phoneNo: '',
+      author: '',
+      msg: '',
+      messageRcvd: '',
+    },
     loggedIn: false,
-    token: '',
-    status: '',
-    documentId: '',
-    title: '',
-    name: '',
-    phoneNo: '',
-    author: '',
-    msg: '',
     isFetching: false,
     isSuccess: false,
-    isError: false,
-    messageRcvd: ''
+    isError: false
   },
   reducers: {
     clearState: (state) => {
@@ -119,8 +116,6 @@ export const userSlice = createSlice({
       console.log('payload', payload);
       state.isFetching = false;
       state.isSuccess = true;
-      state.email = payload.user.email;
-      state.username = payload.user.name;
     },
     [signupUser.pending]: (state) => {
       state.isFetching = true;
@@ -132,19 +127,18 @@ export const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       console.log('rana.... ', payload);
-      //   state.loggedIn = payload.email;
-      //   state.token = payload.name;
-      //   (state.msg = 'test'), (state.status = 200), (state.isFetching = false);
-      //add interface for json parsing
-      state.loggedIn = payload.loggedIn;
-      state.token = payload.token;
-      state.status = payload.status;
-      state.documentId = payload.documentId;
-      state.title = payload.title;
-      state.author = payload.author;
-      state.name = payload.name;
-      state.phoneNo = payload.phoneNo;
-      state.msg = payload.msg;
+      state.userDetail = payload
+      // state.loggedIn = payload.loggedIn;
+      // state.token = payload.token;
+      // state.status = payload.status;
+      // state.documentId = payload.documentId;
+      // state.title = payload.title;
+      // state.author = payload.author;
+      // state.name = payload.name;
+      // state.phoneNo = payload.phoneNo;
+      // state.msg = payload.msg;
+      state.isFetching = false;
+      state.isError = false;
       state.isSuccess = true;
       return state;
     },

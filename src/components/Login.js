@@ -4,16 +4,28 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from './../feature/UserSlice';
 
+// Login component
 const Login = () => {
+
+  // to dispatch the action
   const dispatch = useDispatch();
+
+  // to handle the form submit
   const { handleSubmit } = useForm();
+
+  // variables to read fetch, success and error from redux store
   const { isFetching, isSuccess, isError } = useSelector(userSelector);
+
+  // handle the onSubmit sceanrio
   const onSubmit = (data) => {
+    // dispatch login action on method call
     dispatch(loginUser(data));
   };
 
+  // variable to handle the navigation
   const navigate = useNavigate();
 
+  // default method once component render is commpleted
   useEffect(() => {
     return () => {
       // dispatch(clearState());
@@ -21,13 +33,14 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    console.log('ranaXXXXXXXXXXXXXXXXXXXXXXXx.... ', isSuccess);
+    // handle error part
     if (isError) {
+      // on error state dispatch and clear the data state
       dispatch(clearState());
     }
-
+    // handle success part
     if (isSuccess) {
-      // dispatch(clearState());
+      // on True route to Home
       navigate('/home');
     }
   }, [isError, isSuccess]);
@@ -69,7 +82,6 @@ const Login = () => {
                       id="password"
                       name="password"
                       type="password"
-                      // ref={register({ required: true })}
                       autoComplete="current-password"
                       required
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -107,9 +119,6 @@ const Login = () => {
               <div className="mt-6">
                 <div className="relative">
                   <div className="relative flex justify-center text-sm">
-                    {/* <span className="px-2 bg-white text-gray-500">
-                    Or <Link to="signup"> Signup</Link>
-                  </span> */}
                   </div>
                 </div>
               </div>

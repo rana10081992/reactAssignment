@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { userSelector } from './../feature/UserSlice';
 
 // home component to display the home details
 const Home = () => {
@@ -8,6 +11,8 @@ const Home = () => {
 
   // display profile to display the profile details
   const [userData, setUserData] = useState({});
+
+  const { userDetail } = useSelector(userSelector);
 
   // get Home data method to fetch the home user data
   const getHomeData = async () => {
@@ -26,12 +31,17 @@ const Home = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    getHomeData().then((res) => {
-      console.log('rana 3333333 api res is.... ', res);
-      if (res) {
-        setUserData(res);
-      }
-    });
+    // getHomeData().then((res) => {
+    //   console.log('rana 3333333 api res is.... ', res);
+    //   if (res) {
+    //     setUserData(res);
+    //   }
+    // });
+    if(userDetail){
+      console.log('rana able to read user detail from redux store..')
+    } else {
+      console.log('rana user detail fetch failed')
+    }
   }, []);
 
   // method to set and display the user profile
@@ -60,11 +70,11 @@ const Home = () => {
           <div className="card-body">
             <h5 className="card-title">
               <span>documentId : </span>
-              {userData.documentId}
+              {userDetail.documentId}
             </h5>
             <p className="card-text">
               <span>User Name</span>
-              {userData.name}
+              {userDetail.name}
             </p>
           </div>
         </div>

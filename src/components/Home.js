@@ -9,34 +9,11 @@ const Home = () => {
   // display profile to display the profile details
   const [displayProfile, setProfile] = useState(true);
 
-  // display profile to display the profile details
-  const [userData, setUserData] = useState({});
-
+  // read value of user detail from redux store
   const { userDetail } = useSelector(userSelector);
-
-  // get Home data method to fetch the home user data
-  const getHomeData = async () => {
-    const res = await fetch('http://localhost:3000/home', {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    // check API response for user
-    console.log('rana API res is... ', res);
-    // convert result to json
-    const result = await res.json();
-    return result;
-  };
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    // getHomeData().then((res) => {
-    //   console.log('rana 3333333 api res is.... ', res);
-    //   if (res) {
-    //     setUserData(res);
-    //   }
-    // });
     if(userDetail){
       console.log('rana able to read user detail from redux store..')
     } else {
@@ -63,7 +40,7 @@ const Home = () => {
         <button onClick={setUserProfile}>Profile Details</button>
         <button onClick={setProducts}>Products Details</button>
       </div>
-
+      
       {displayProfile ? (
         <div className="card text-center">
           <div className="card-header">Profile Details</div>

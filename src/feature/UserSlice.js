@@ -85,7 +85,7 @@ export const fetchUserBytoken = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    // add user through interface
+    // user detail object
     userDetail:{
       token: '',
       status: '',
@@ -128,15 +128,6 @@ export const userSlice = createSlice({
     [loginUser.fulfilled]: (state, { payload }) => {
       console.log('rana.... ', payload);
       state.userDetail = payload
-      // state.loggedIn = payload.loggedIn;
-      // state.token = payload.token;
-      // state.status = payload.status;
-      // state.documentId = payload.documentId;
-      // state.title = payload.title;
-      // state.author = payload.author;
-      // state.name = payload.name;
-      // state.phoneNo = payload.phoneNo;
-      // state.msg = payload.msg;
       state.isFetching = false;
       state.isError = false;
       state.isSuccess = true;

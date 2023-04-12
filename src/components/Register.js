@@ -32,11 +32,23 @@ const Register = () => {
   };
 
   const performSubmit = async () => {
-    const res = await fetch('http://localhost:3000/user', {
+    let userDetails = {
+      loggedIn: true,
+      token: 'aabbccdd-1122-3344XXXXXX',
+      status: 200,
+      documentId: 2000,
+      title: 'json-server 2000',
+      name: 'test React 2000',
+      phoneNo: '987654200',
+      author: 'typicodeSSSSS',
+      msg: 'successful loggedInSSSSS'
+    }
+    const res = await fetch('http://localhost:3000/register', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(userDetails)
     });
     console.log('rana API res is... ', res);
     const result = await res.json();

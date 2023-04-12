@@ -71,18 +71,19 @@ app.get('/home', (req, res) => {
 
 app.post('/register', async (req, res) => {
   // assign request body to obj
-  console.log('rana1111111111111111111111111111..... ', req);
-  const userDetails = req.body
+  const userDetails = req.body;
 
   // file name to update the user details json file
   const filename = 'userDetails.json';
+
   // reading file from local json
   const file = await fs.readFile(filename);
   users = JSON.parse(file);
-  console.log('rana..... items... ', userDetails);
+
   // pushing new object to existing array
   users.push(userDetails);
   console.log('rana..... users... ', users);
+  
   // write updated data to the DB/JSON file
   await fs.writeFile(filename, JSON.stringify(users));
   res.json({

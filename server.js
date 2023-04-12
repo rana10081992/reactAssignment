@@ -8,6 +8,11 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded());
+
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
 // let fs = require('fs');
 
 let data = [];
@@ -66,18 +71,10 @@ app.get('/home', (req, res) => {
 
 app.post('/register', async (req, res) => {
   // assign request body to obj
-  const userDetails = {
-    loggedIn: true,
-    token: 'aabbccdd-1122-3344XXXXXX',
-    status: 200,
-    documentId: 2000,
-    title: 'json-server 2000',
-    name: 'test React 2000',
-    phoneNo: '987654200',
-    author: 'typicodeSSSSS',
-    msg: 'successful loggedInSSSSS'
-  };
+  console.log('rana1111111111111111111111111111..... ', req);
+  const userDetails = req.body
 
+  // file name to update the user details json file
   const filename = 'userDetails.json';
   // reading file from local json
   const file = await fs.readFile(filename);

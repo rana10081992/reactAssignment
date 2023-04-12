@@ -11,7 +11,7 @@ const initialState = {
     // author: '',
     // msg: '',
     // messageRcvd: ''
-],
+  ],
   loggedIn: false,
   isFetching: false,
   isSuccess: false,
@@ -28,24 +28,23 @@ export const signupUser = createAsyncThunk(
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        // body: JSON.stringify({
-        //   loggedIn,
-        //   token,
-        //   status,
-        //   documentId,
-        //   title,
-        //   name,
-        //   phoneNo,
-        //   author,
-        //   msg
-        // })
+        body: JSON.stringify({
+          loggedIn,
+          token,
+          status,
+          documentId,
+          title,
+          name,
+          phoneNo,
+          author,
+          msg
+        })
       });
       let data = await response.json();
       console.log('data', data);
 
       if (response.status === 200) {
-        // localStorage.setItem('token', data.token);
-        return { ...data, username: 'test name', email: 'test@gmailcom' };
+        return { ...data };
       } else {
         return thunkAPI.rejectWithValue(data);
       }
@@ -122,7 +121,7 @@ export const userSlice = createSlice({
     [signupUser.fulfilled]: (state, { payload }) => {
       console.log('rana payload in redux coming is.. ', payload);
       state.userDetail = payload.userDetails;
-      console.log('rana.... ', state.userDetail)
+      console.log('rana.... ', state.userDetail);
       state.isFetching = false;
       state.isSuccess = true;
     },

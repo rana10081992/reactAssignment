@@ -49,7 +49,7 @@ const Register = () => {
       token: 'aabbccdd-1122-3344XXXXXX',
       status: 200,
       documentId: 2000,
-      title: 'json-server 2000',
+      title: 'TEST TEST TEST TEST',
       name: 'test React 2000',
       phoneNo: '987654200',
       author: 'typicodeSSSSS',

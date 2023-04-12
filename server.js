@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require("fs").promises;
+const fs = require('fs').promises;
 
 const app = express();
 app.use(cors());
@@ -66,20 +66,31 @@ app.get('/home', (req, res) => {
 
 app.post('/register', async (req, res) => {
   // assign request body to obj
-  const userDetails = req;
+  const userDetails = {
+    loggedIn: true,
+    token: 'aabbccdd-1122-3344XXXXXX',
+    status: 200,
+    documentId: 2000,
+    title: 'json-server 2000',
+    name: 'test React 2000',
+    phoneNo: '987654200',
+    author: 'typicodeSSSSS',
+    msg: 'successful loggedInSSSSS'
+  };
+
+  const filename = 'userDetails.json';
   // reading file from local json
-  const filename = 'userDetails.json'
   const file = await fs.readFile(filename);
   users = JSON.parse(file);
-  // pushing new object to existing array 
-  console.log('rana..... items... ', userDetails)
+  console.log('rana..... items... ', userDetails);
+  // pushing new object to existing array
   users.push(userDetails);
-  console.log('rana..... users... ', users)
+  console.log('rana..... users... ', users);
   // write updated data to the DB/JSON file
   await fs.writeFile(filename, JSON.stringify(users));
   res.json({
     res: 200,
-    // useDetails: req,
+    userDetails: userDetails,
     msg: 'registration done successfully'
   });
 });

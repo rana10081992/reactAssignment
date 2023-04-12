@@ -1,27 +1,51 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+const initialState = {
+  // user detail object
+  userDetail: [
+    // token: '',
+    // status: '',
+    // documentId: '',
+    // title: '',
+    // name: '',
+    // phoneNo: '',
+    // author: '',
+    // msg: '',
+    // messageRcvd: ''
+],
+  loggedIn: false,
+  isFetching: false,
+  isSuccess: false,
+  isError: false
+};
 
 export const signupUser = createAsyncThunk(
-  'users/signupUser',
-  async ({ name, email, password }, thunkAPI) => {
+  '/register',
+  async ({ loggedIn, token, status, documentId, title, name, phoneNo, author, msg }, thunkAPI) => {
     try {
-      const response = await fetch('https://mock-user-auth-server.herokuapp.com/api/v1/users', {
+      const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name,
-          email,
-          password
-        })
+        // body: JSON.stringify({
+        //   loggedIn,
+        //   token,
+        //   status,
+        //   documentId,
+        //   title,
+        //   name,
+        //   phoneNo,
+        //   author,
+        //   msg
+        // })
       });
       let data = await response.json();
       console.log('data', data);
 
       if (response.status === 200) {
-        localStorage.setItem('token', data.token);
-        return { ...data, username: name, email: email };
+        // localStorage.setItem('token', data.token);
+        return { ...data, username: 'test name', email: 'test@gmailcom' };
       } else {
         return thunkAPI.rejectWithValue(data);
       }
@@ -84,24 +108,7 @@ export const fetchUserBytoken = createAsyncThunk(
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    // user detail object
-    userDetail:{
-      token: '',
-      status: '',
-      documentId: '',
-      title: '',
-      name: '',
-      phoneNo: '',
-      author: '',
-      msg: '',
-      messageRcvd: '',
-    },
-    loggedIn: false,
-    isFetching: false,
-    isSuccess: false,
-    isError: false
-  },
+  initialState,
   reducers: {
     clearState: (state) => {
       state.isError = false;
@@ -113,7 +120,9 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
-      console.log('payload', payload);
+      console.log('rana payload in redux coming is.. ', payload);
+      state.userDetail = payload.userDetails;
+      console.log('rana.... ', state.userDetail)
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -123,11 +132,11 @@ export const userSlice = createSlice({
     [signupUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.userDetail = payload;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       console.log('rana.... ', payload);
-      state.userDetail = payload
+      state.userDetail = payload;
       state.isFetching = false;
       state.isError = false;
       state.isSuccess = true;

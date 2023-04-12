@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signupUser } from '../feature/UserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser, userSelector, clearState } from './../feature/UserSlice';
 
 const Register = () => {
+  // to dispatch the action
+  const dispatch = useDispatch();
+
   const [documentId, setDocumentId] = useState(null);
   const [password, setPassword] = useState(null);
   const navigate = useNavigate();
+
+  // variables to read fetch, success and error from redux store
+  const { isFetching, isSuccess, isError } = useSelector(userSelector);
+
+  useEffect(() => {
+    // handle error part
+    if (isError) {
+      // on error state dispatch and clear the data state
+      dispatch(clearState());
+    }
+    // handle success part
+    if (isSuccess) {
+      // on True route to Home
+      navigate('/home');
+    }
+  }, [isError, isSuccess]);
 
   const getAllUsers = async () => {
     const res = await fetch('http://localhost:3000/getAllUsers', {
@@ -21,17 +43,7 @@ const Register = () => {
 
   const submitRegistration = (event) => {
     event.preventDefault();
-    console.log('rana.... ', documentId, password);
-    performSubmit().then((res) => {
-      console.log('rana 3333333 api res is.... ', res);
-      if (res) {
-        alert('registration done successfully with id..' + res.documentId);
-        navigate('/home');
-      }
-    });
-  };
-
-  const performSubmit = async () => {
+    console.log('rana ,ethod calling.... ', event);
     let userDetails = {
       loggedIn: true,
       token: 'aabbccdd-1122-3344XXXXXX',
@@ -42,20 +54,10 @@ const Register = () => {
       phoneNo: '987654200',
       author: 'typicodeSSSSS',
       msg: 'successful loggedInSSSSS'
-    }
-    const res = await fetch('http://localhost:3000/register', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userDetails)
-    });
-    console.log('rana API res is... ', res);
-    const result = await res.json();
-    console.log('rana..... result is....', result);
-    return result;
+    };
+    // dispatch signup/registration action on method call
+    dispatch(signupUser(userDetails));
   };
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === 'firstName') {

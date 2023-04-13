@@ -41,12 +41,12 @@ function App() {
       <br />
       {!displayLogin ? (
         <div className="text-center">
-          <div><img src={sopraLogo}></img></div>
-          <Link to="/login">Login</Link> {' | '}
-          <Link to="/register">Register</Link>
+          <div className='mb-3'><img src={sopraLogo}></img></div>
+          <Link to="/login" className='link_text'>Login</Link> {' | '}
+          <Link to="/register" className='link_text'>Register</Link>
         </div>
       ) : (
-        <button onClick={logoutUser} className="btn btn-primary">
+        <button onClick={logoutUser} className="btn btn-primary float-end mx-3 ">
           Logout
         </button>
       )}
@@ -57,3 +57,4 @@ function App() {
 }
 
 export default App;
+

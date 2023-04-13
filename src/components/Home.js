@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { userSelector } from './../feature/UserSlice';
+import './Home.css'
 
 // home component to display the home details
 const Home = () => {
@@ -14,7 +15,7 @@ const Home = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    if(userDetail){
+    if (userDetail) {
       console.log('rana able to read user detail from redux store..')
     } else {
       console.log('rana user detail fetch failed')
@@ -33,45 +34,47 @@ const Home = () => {
 
   // UI part
   return (
-    <div>
-      <div className="flex flex-coloumn align-item-center"></div>
-      <div htmlFor="">Home screen</div>
+    <div className='text-center'>
+      <div htmlFor="" className='home_screen_text'>Home screen</div>
       <div>
-        <button onClick={setUserProfile}>Profile Details</button>
-        <button onClick={setProducts}>Products Details</button>
+        <button onClick={setUserProfile} className={`profile_button ${displayProfile ? 'selected_button' : 'not_selected_button'}`}>Profile Details</button>
+        <button onClick={setProducts} className={`profile_button ${!displayProfile ? 'selected_button' : 'not_selected_button'}`}>Products Details</button>
       </div>
-      
+
       {displayProfile ? (
-        <div className="card text-center">
-          <div className="card-header">Profile Details</div>
+        <div className="card text-center form">
+          <div className="card-header font_bold">Profile Details</div>
           <div className="card-body">
-            <h5 className="card-title">
-              <span>documentId : </span>
-              {userDetail.documentId}
-            </h5>
-            <p className="card-text">
-              <span>User Name</span>
-              {userDetail.name}
+            <p >
+              <span className="font_bold">Document Id : </span>
+              <span >{userDetail.documentId}</span>
+            </p>
+            <p >
+              <span className="font_bold">User Name : </span>
+              <span >{userDetail.name}</span>
             </p>
           </div>
         </div>
       ) : (
-        <div>
-          <div className="flex flex-coloumn align-item-center">
-            <span>Account Type one offered</span>
-            SAVINGS
-          </div>
-          <div className="flex flex-coloumn align-item-center">
-            <span>Account Type two offered</span>
-            SVCC
-          </div>
-          <div className="flex flex-coloumn align-item-center">
-            <span>Banking type</span>
-            DIGITAL
-          </div>
-          <div className="flex flex-coloumn align-item-center">
-            <span>Helpline no - </span>
-            +91-999-234-5678
+        <div className=' card text-center form'>
+          <div className="card-header font_bold">Product Details</div>
+          <div className="card-body">
+            <p>
+              <span className="font_bold">Account Type one offered : </span>
+              <span>SAVINGS</span>
+            </p>
+            <p>
+              <span className="font_bold">Account Type two offered : </span>
+              <span>SVCC</span>
+            </p>
+            <p>
+              <span className="font_bold">Banking type : </span>
+              <span>DIGITAL</span>
+            </p>
+            <p>
+              <span className="font_bold">Helpline no :  </span>
+              <span>+91-999-234-5678</span>
+            </p>
           </div>
         </div>
       )}
@@ -79,3 +82,4 @@ const Home = () => {
   );
 };
 export default Home;
+

@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { signupUser } from '../../feature/UserSlice';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from '../../feature/UserSlice';
+import validator from 'validator';
 
 const Register = () => {
+  const [inputs, setInputs] = useState({
+    name: '',
+    address: '',
+    phoneNo: '',
+    password: ''
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+  const { username, address, phoneNo, password } = inputs;
+
+  const location = useLocation();
+
   // to dispatch the action
   const dispatch = useDispatch();
 
-  const [documentId, setDocumentId] = useState(null);
-  const [password, setPassword] = useState(null);
+  // variable to handle the navigation
   const navigate = useNavigate();
 
   // variables to read fetch, success and error from redux store
-  const { isFetching, isSuccess, isError } = useSelector(userSelector);
+  const { isSuccess, isError } = useSelector(userSelector);
 
   useEffect(() => {
     // handle error part
@@ -28,6 +40,16 @@ const Register = () => {
     }
   }, [isError, isSuccess]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
+
+  const validatePhoneNumber = (number) => {
+    const isValidPhoneNumber = validator.isMobilePhone(number);
+    return isValidPhoneNumber;
+  };
+
   const getAllUsers = async () => {
     const res = await fetch('http://localhost:3000/getAllUsers', {
       method: 'get',
@@ -39,6 +61,19 @@ const Register = () => {
     const result = await res.json();
     console.log('rana..... result is....', result);
     return result;
+  };
+
+  // handle the onSubmit sceanrio
+  const onRegistrationSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    if (username && address && phoneNo && password) {
+      console.log('rana username and password entered is.... ', username, password, from);
+      // get return url from location state or default to home page
+      const { from } = location.state || { from: { pathname: '/' } };
+      // dispatch login action on method call
+      dispatch(loginUser(username, password, from));
+    }
   };
 
   const submitRegistration = (event) => {
@@ -58,93 +93,60 @@ const Register = () => {
     // dispatch signup/registration action on method call
     dispatch(signupUser(userDetails));
   };
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    if (id === 'firstName') {
-      // setFirstName(value);
-    }
-    if (id === 'lastName') {
-      // setLastName(value);
-    }
-    if (id === 'documentId') {
-      setDocumentId(value);
-    }
-    if (id === 'password') {
-      setPassword(value);
-    }
-    if (id === 'confirmPassword') {
-      // setConfirmPassword(value);
-    }
-  };
 
   return (
-    <div className="form">
-      <form onSubmit={submitRegistration}>
-        <div className="form-body">
-          <div className="username">
-            <label className="form__label" htmlFor="firstName">
-              First Name{' '}
-            </label>
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="form__input"
-              type="text"
-              id="firstName"
-              placeholder="First Name"
-            />
-          </div>
-          <div className="lastname">
-            <label className="form__label" htmlFor="lastName">
-              Last Name{' '}
-            </label>
-            <input
-              onChange={(e) => handleInputChange(e)}
-              type="text"
-              name=""
-              id="lastName"
-              className="form__input"
-              placeholder="LastName"
-            />
-          </div>
-          <div className="documentId">
-            <label className="form__label" htmlFor="documentId">
-              documentId{' '}
-            </label>
-            <input
-              onChange={(e) => handleInputChange(e)}
-              type="text"
-              id="documentId"
-              className="form__input"
-              placeholder="documentId"
-            />
-          </div>
-          <div className="password">
-            <label className="form__label" htmlFor="password">
-              Password{' '}
-            </label>
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="form__input"
-              type="password"
-              id="password"
-              placeholder="Password"
-            />
-          </div>
-          <div className="confirm-password">
-            <label className="form__label" htmlFor="confirmPassword">
-              Confirm Password{' '}
-            </label>
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="form__input"
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm Password"
-            />
-          </div>
+    <div className="w-50 container">
+      <form name="form" onSubmit={onRegistrationSubmit}>
+        <div className="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            value={username}
+            onChange={handleChange}
+            className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
+          />
+          {submitted && !username && <div className="invalid-feedback">User Name is required</div>}
         </div>
-        <div className="footer">
-          <button className="btn btn-primary">Register</button>
+        <div className="form-group">
+          <label>Address</label>
+          <input
+            type="text"
+            name="address"
+            value={address}
+            onChange={handleChange}
+            className={'form-control' + (submitted && !address ? ' is-invalid' : '')}
+          />
+          {submitted && !address && <div className="invalid-feedback">Address is required</div>}
+        </div>
+        <div className="form-group">
+          <label>Phone NO:</label>
+          <input
+            type="number"
+            maxLength="10"
+            name="phoneNo"
+            value={phoneNo}
+            onChange={handleChange}
+            className={'form-control' + (submitted && !phoneNo ? ' is-invalid' : '')}
+          />
+          {submitted && !phoneNo && <div className="invalid-feedback">Phone No is required</div>}
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+            className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
+          />
+          {submitted && !password && <div className="invalid-feedback">Password is required</div>}
+        </div>
+        <div className="form-group container">
+          <button className="btn btn-primary">
+            {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
+            Login
+          </button>
         </div>
       </form>
     </div>

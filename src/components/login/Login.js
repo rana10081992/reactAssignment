@@ -1,26 +1,23 @@
-import React, { Fragment, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginUser, userSelector, clearState } from '../../feature/UserSlice';
 
 // Login component
 const Login = () => {
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: ''
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+  const { username, password } = inputs;
+  // variables to read fetch, success and error from redux store
+  const { isSuccess, isError } = useSelector(userSelector);
+
+  const location = useLocation();
   // to dispatch the action
   const dispatch = useDispatch();
-
-  // to handle the form submit
-  const { handleSubmit } = useForm();
-
-  // variables to read fetch, success and error from redux store
-  const { isFetching, isSuccess, isError } = useSelector(userSelector);
-
-  // handle the onSubmit sceanrio
-  const onSubmit = (data) => {
-    // dispatch login action on method call
-    dispatch(loginUser(data));
-  };
-
   // variable to handle the navigation
   const navigate = useNavigate();
 
@@ -44,78 +41,57 @@ const Login = () => {
     }
   }, [isError, isSuccess]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
+
+  // handle the onSubmit sceanrio
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    if (username && password) {
+      console.log('rana name and password entered is.... ', username, password, from);
+      // get return url from location state or default to home page
+      const { from } = location.state || { from: { pathname: '/' } };
+      // dispatch login action on method call
+      dispatch(loginUser(username, password, from));
+    }
+  };
+
   return (
-    <Fragment>
-      <div className="form">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
+    <div className="w-50 container">
+      <form name="form" onSubmit={onSubmit}>
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            value={username}
+            onChange={handleChange}
+            className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
+          />
+          {submitted && !username && <div className="invalid-feedback">Username is required</div>}
         </div>
-        <div className="text-center py-3 ">
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} method="get">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 py-1 mt-2">
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button type="submit" className="loginButton btn btn-primary mt-4">
-                {isFetching ? (
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                ) : null}
-                Sign in
-              </button>
-            </div>
-          </form>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+            className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
+          />
+          {submitted && !password && <div className="invalid-feedback">Password is required</div>}
         </div>
-      </div>
-    </Fragment>
+        <div className="form-group container">
+          <button className="btn btn-primary">
+            {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

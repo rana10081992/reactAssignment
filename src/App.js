@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector, clearState } from './feature/UserSlice';
-import sopraLogo from './assets/sopraLogo.png'
+import sopraLogo from './assets/sopraLogo.png';
 
 function App() {
   // for dsiapatch actions
@@ -41,9 +41,16 @@ function App() {
       <br />
       {!displayLogin ? (
         <div className="text-center">
-          <div className='mb-3'><img src={sopraLogo}></img></div>
-          <Link to="/login" className='link_text'>Login</Link> {' | '}
-          <Link to="/register" className='link_text'>Register</Link>
+          <div className="mb-3">
+            <img src={sopraLogo}></img>
+          </div>
+          <Link to="/login" className="link_text">
+            Login
+          </Link>{' '}
+          {' | '}
+          <Link to="/register" className="link_text">
+            Register
+          </Link>
         </div>
       ) : (
         <button onClick={logoutUser} className="btn btn-primary float-end mx-3 ">
@@ -57,4 +64,3 @@ function App() {
 }
 
 export default App;
-

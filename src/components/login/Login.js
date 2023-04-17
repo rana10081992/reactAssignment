@@ -2,11 +2,10 @@ import React, { Fragment, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from './../feature/UserSlice';
+import { loginUser, userSelector, clearState } from '../../feature/UserSlice';
 
 // Login component
 const Login = () => {
-
   // to dispatch the action
   const dispatch = useDispatch();
 
@@ -72,7 +71,9 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 py-1 mt-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 py-1 mt-2">
                 Password
               </label>
               <div className="mt-1">
@@ -88,10 +89,7 @@ const Login = () => {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="loginButton btn btn-primary mt-4"
-              >
+              <button type="submit" className="loginButton btn btn-primary mt-4">
                 {isFetching ? (
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -122,4 +120,3 @@ const Login = () => {
 };
 
 export default Login;
-

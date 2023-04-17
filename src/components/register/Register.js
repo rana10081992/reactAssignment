@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signupUser } from '../feature/UserSlice';
+import { signupUser } from '../../feature/UserSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from './../feature/UserSlice';
+import { loginUser, userSelector, clearState } from '../../feature/UserSlice';
 
 const Register = () => {
   // to dispatch the action

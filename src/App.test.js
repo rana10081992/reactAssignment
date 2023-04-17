@@ -10,10 +10,11 @@ test('renders learn react link', () => {
   render(
     <Provider store={store}>
       <BrowserRouter>
-  <App />
+        <App />
       </BrowserRouter>
-  </Provider>);
-  const linkElement = screen.getByText("Learn React Assignment");
+    </Provider>
+  );
+  const linkElement = screen.getByText('Learn React Assignment');
   screen.debug(linkElement);
   expect(linkElement).toBeInTheDocument();
 });

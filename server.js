@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs').promises;
 
+const userDetailFileName = 'userDetails.json';
+
 const app = express();
 app.use(cors());
 app.use((req, res, next) => {
@@ -20,18 +22,15 @@ let data = [];
 for (i = 0; i < 10; i++) {
   let obj = {
     loggedIn: true,
-    token: 'aabbccdd-1122-3344' + i,
     status: 200,
     documentId: 1000 + i,
-    title: 'json-server' + '- ' + i,
     name: 'test React 1000' + i,
-    phoneNo: '987654100' + 1,
-    author: 'typicode' + i,
-    msg: 'successful loggedIn' + i
+    phoneNo: '987654100' + i,
+    address: 'home address test ' + i
   };
   data.push(obj);
 }
-fs.writeFile('userDetails.json', JSON.stringify(data), function (err) {
+fs.writeFile(userDetailFileName, JSON.stringify(data), function (err) {
   if (err) throw err;
   console.log('complete');
 });
@@ -39,33 +38,27 @@ fs.writeFile('userDetails.json', JSON.stringify(data), function (err) {
 app.get('/login', (req, res) => {
   res.json({
     loggedIn: true,
-    token: 'aabbccdd-1122-3344',
     status: 200,
     documentId: 1000,
-    title: 'json-server',
     name: 'test React 1000',
     phoneNo: '9876541000',
-    author: 'typicode',
-    msg: 'successful loggedIn'
+    address: 'home test 1...'
   });
 });
 
-app.get('/getAllUsers', (req, res) => {
-  res.json([
-    { userName: 'test@gmail.com', documentId: 1000 },
-    { userName: 'test2@gmail.com', documentId: 1001 },
-    { userName: 'test3@gmail.com', documentId: 1002 }
-  ]);
+app.get('/getAllUsers', async (req, res) => {
+  // reading file from local json
+  const file = await fs.readFile(userDetailFileName);
+  const fileResponse = JSON.parse(file);
+  res.json(fileResponse);
 });
 
 app.get('/home', (req, res) => {
   res.json({
     documentId: 1000,
-    title: 'json-server',
     name: 'test React 1000',
     phoneNo: '9876541000',
-    author: 'typicode',
-    msg: 'successful loggedIn'
+    address: 'test home address'
   });
 });
 
@@ -73,19 +66,16 @@ app.post('/register', async (req, res) => {
   // assign request body to obj
   const userDetails = req.body;
 
-  // file name to update the user details json file
-  const filename = 'userDetails.json';
-
   // reading file from local json
-  const file = await fs.readFile(filename);
+  const file = await fs.readFile(userDetailFileName);
   users = JSON.parse(file);
 
   // pushing new object to existing array
   users.push(userDetails);
   console.log('rana..... users... ', users);
-  
+
   // write updated data to the DB/JSON file
-  await fs.writeFile(filename, JSON.stringify(users));
+  await fs.writeFile(userDetailFileName, JSON.stringify(users));
   res.json({
     res: 200,
     userDetails: userDetails,

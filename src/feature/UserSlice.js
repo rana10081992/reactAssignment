@@ -20,7 +20,7 @@ const initialState = {
 
 export const signupUser = createAsyncThunk(
   '/register',
-  async ({ loggedIn, token, status, documentId, title, name, phoneNo, author, msg }, thunkAPI) => {
+  async ({ loggedIn, status, documentId, name, phoneNo, address }, thunkAPI) => {
     try {
       const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
@@ -30,14 +30,11 @@ export const signupUser = createAsyncThunk(
         },
         body: JSON.stringify({
           loggedIn,
-          token,
           status,
           documentId,
-          title,
           name,
           phoneNo,
-          author,
-          msg
+          address
         })
       });
       let data = await response.json();

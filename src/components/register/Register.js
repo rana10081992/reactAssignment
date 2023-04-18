@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { signupUser } from '../../feature/UserSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from '../../feature/UserSlice';
-import validator from 'validator';
+import { userSelector, clearState } from '../../feature/UserSlice';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from 'yup';
 
 const Register = () => {
-  const [inputs, setInputs] = useState({
-    name: '',
-    address: '',
-    phoneNo: '',
-    password: ''
-  });
-
-  const [submitted, setSubmitted] = useState(false);
-  const { username, address, phoneNo, password } = inputs;
-
+  let existingUserDetails = [];
   const location = useLocation();
 
   // to dispatch the action
@@ -26,6 +20,18 @@ const Register = () => {
 
   // variables to read fetch, success and error from redux store
   const { isSuccess, isError } = useSelector(userSelector);
+
+  // default method once component render is commpleted
+  useEffect(() => {
+    return () => {
+      // get registered users list
+      getAllUsers().then((res) => {
+        if (res) {
+          existingUserDetails = res;
+        }
+      });
+    };
+  }, []);
 
   useEffect(() => {
     // handle error part
@@ -40,14 +46,36 @@ const Register = () => {
     }
   }, [isError, isSuccess]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  // form initial values
+  const initialValues = {
+    name: '',
+    documentId: '',
+    address: '',
+    phoneNo: '',
+    password: '',
+    confirmPassword: ''
   };
 
-  const validatePhoneNumber = (number) => {
-    const isValidPhoneNumber = validator.isMobilePhone(number);
-    return isValidPhoneNumber;
+  // validation schema using yup
+  const validationSchema = (e) => {
+    return Yup.object().shape({
+      name: Yup.string().required('Name is required'),
+      documentId: Yup.string().required('Document Id is required'),
+      address: Yup.string()
+        .required('Address is required')
+        .min(6, 'address must be at least 6 characters')
+        .max(40, 'address must not exceed 20 characters'),
+      phoneNo: Yup.string()
+        .required('Phone No is required')
+        .length(10, 'Phone no must be 10 digits'),
+      password: Yup.string()
+        .required('Password is required')
+        .min(6, 'Password must be at least 6 characters')
+        .max(20, 'Password must not exceed 20 characters'),
+      confirmPassword: Yup.string()
+        .required('Confirm Password is required')
+        .oneOf([Yup.ref('password'), null], 'Confirm Password does not match')
+    });
   };
 
   const getAllUsers = async () => {
@@ -57,23 +85,43 @@ const Register = () => {
         'Content-Type': 'application/json'
       }
     });
-    console.log('rana API res is... ', res);
     const result = await res.json();
-    console.log('rana..... result is....', result);
+    console.log('rana API res is...', result);
     return result;
   };
 
-  // handle the onSubmit sceanrio
-  const onRegistrationSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-    if (username && address && phoneNo && password) {
-      console.log('rana username and password entered is.... ', username, password, from);
-      // get return url from location state or default to home page
-      const { from } = location.state || { from: { pathname: '/' } };
-      // dispatch login action on method call
-      dispatch(loginUser(username, password, from));
+  const handleExistingUser = (formData) => {
+    console.log('rana within call method............................................');
+    console.log('rana form data.... ', formData);
+    console.log('rana form data.... ', Number(formData.documentId));
+    const formDocumentId = Number(formData.documentId);
+    console.log('rana....  form document id is.. ', formDocumentId);
+    // send form data document id as number
+    if (formData) {
+      const obj = existingUserDetails.find(
+        (item) => item.documentId === Number(formData.documentId)
+      );
+      console.log('rana object find is.....', obj);
+      if (obj) {
+        console.log('rana user already exists with id.. ', obj.documentId);
+        toast.error('user already exists with id ' + obj.documentId);
+      } else {
+        console.log('rana calling the registration API...');
+        toast.success('rana you can go for registration..');
+        // get return url from location state or default to home page
+        const { from } = location.state || { from: { pathname: '/' } };
+        // dispatch signup/registration action on method call
+        dispatch(signupUser(formData));
+      }
+    } else {
+      console.log('rana user form data is invalid ');
+      toast.error('invalid form data');
     }
+  };
+
+  // handle the onSubmit sceanrio
+  const onRegistrationSubmit = (data) => {
+    handleExistingUser(data);
   };
 
   const submitRegistration = (event) => {
@@ -95,60 +143,102 @@ const Register = () => {
   };
 
   return (
-    <div className="w-50 container">
-      <form name="form" onSubmit={onRegistrationSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={username}
-            onChange={handleChange}
-            className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
-          />
-          {submitted && !username && <div className="invalid-feedback">User Name is required</div>}
-        </div>
-        <div className="form-group">
-          <label>Address</label>
-          <input
-            type="text"
-            name="address"
-            value={address}
-            onChange={handleChange}
-            className={'form-control' + (submitted && !address ? ' is-invalid' : '')}
-          />
-          {submitted && !address && <div className="invalid-feedback">Address is required</div>}
-        </div>
-        <div className="form-group">
-          <label>Phone NO:</label>
-          <input
-            type="number"
-            maxLength="10"
-            name="phoneNo"
-            value={phoneNo}
-            onChange={handleChange}
-            className={'form-control' + (submitted && !phoneNo ? ' is-invalid' : '')}
-          />
-          {submitted && !phoneNo && <div className="invalid-feedback">Phone No is required</div>}
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
-          />
-          {submitted && !password && <div className="invalid-feedback">Password is required</div>}
-        </div>
-        <div className="form-group container">
-          <button className="btn btn-primary">
-            {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
-            Login
-          </button>
-        </div>
-      </form>
+    <div className="w-75 col-sm-12 container">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onRegistrationSubmit}
+        render={({ errors, status, touched }) => (
+          <>
+            <Form>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <Field
+                  name="name"
+                  type="text"
+                  className={'form-control' + (errors.name && touched.name ? ' is-invalid' : '')}
+                />
+                <ErrorMessage name="name" component="div" className="invalid-feedback" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="documentId">document Id: </label>
+                <Field
+                  name="documentId"
+                  type="text"
+                  className={
+                    'form-control' + (errors.documentId && touched.documentId ? ' is-invalid' : '')
+                  }
+                />
+                <ErrorMessage name="documentId" component="div" className="invalid-feedback" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="address">Address</label>
+                <Field
+                  name="address"
+                  type="text"
+                  className={
+                    'form-control' + (errors.address && touched.address ? ' is-invalid' : '')
+                  }
+                />
+                <ErrorMessage name="address" component="div" className="invalid-feedback" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="phoneNo">Phone No</label>
+                <Field
+                  name="phoneNo"
+                  type="number"
+                  className={
+                    'form-control' + (errors.phoneNo && touched.phoneNo ? ' is-invalid' : '')
+                  }
+                />
+                <ErrorMessage name="phoneNo" component="div" className="invalid-feedback" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <Field
+                  name="password"
+                  type="password"
+                  className={
+                    'form-control' + (errors.password && touched.password ? ' is-invalid' : '')
+                  }
+                />
+                <ErrorMessage name="password" component="div" className="invalid-feedback" />
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <Field
+                  name="confirmPassword"
+                  type="password"
+                  className={
+                    'form-control' +
+                    (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')
+                  }
+                />
+                <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
+              </div>
+              <div className="form-group">
+                <button type="submit" className="btn btn-primary mr-2">
+                  Register
+                </button>
+                <button type="reset" className="btn btn-secondary">
+                  Reset
+                </button>
+              </div>
+            </Form>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </>
+        )}
+      />
     </div>
   );
 };

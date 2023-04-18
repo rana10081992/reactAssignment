@@ -60,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-50 container">
+    <div className="w-75 col-sm-12 container">
       <form name="form" onSubmit={onSubmit}>
         <div className="form-group">
           <label>Username</label>

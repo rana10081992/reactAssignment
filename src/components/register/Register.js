@@ -91,7 +91,6 @@ const Register = () => {
   };
 
   const handleExistingUser = (formData) => {
-    console.log('rana within call method............................................');
     console.log('rana form data.... ', formData);
     console.log('rana form data.... ', Number(formData.documentId));
     const formDocumentId = Number(formData.documentId);
@@ -99,7 +98,7 @@ const Register = () => {
     // send form data document id as number
     if (formData) {
       const obj = existingUserDetails.find(
-        (item) => item.documentId === Number(formData.documentId)
+        (item) => Number(item.documentId) === Number(formData.documentId)
       );
       console.log('rana object find is.....', obj);
       if (obj) {
@@ -110,8 +109,15 @@ const Register = () => {
         toast.success('rana you can go for registration..');
         // get return url from location state or default to home page
         const { from } = location.state || { from: { pathname: '/' } };
+        // create payload for user registration with documnet id as number type
+        const userDetails = {
+          documentId: Number(formData.documentId),
+          name: formData.name,
+          address: formData.address,
+          phoneNo: formData.phoneNo
+        };
         // dispatch signup/registration action on method call
-        dispatch(signupUser(formData));
+        dispatch(signupUser(userDetails));
       }
     } else {
       console.log('rana user form data is invalid ');

@@ -35,15 +35,30 @@ fs.writeFile(userDetailFileName, JSON.stringify(data), function (err) {
   console.log('complete');
 });
 
-app.get('/login', (req, res) => {
-  res.json({
-    loggedIn: true,
-    status: 200,
-    documentId: 1000,
-    name: 'test React 1000',
-    phoneNo: '9876541000',
-    address: 'home test 1...'
-  });
+app.post('/login', async (req, res) => {
+  // assign request body to payload variable
+  const payload = req.body;
+
+  // reading file from local json
+  const file = await fs.readFile(userDetailFileName);
+  const fileResponse = JSON.parse(file);
+
+  console.log('rana payload... ', payload.userName);
+  console.log('rana db users are... ', fileResponse);
+  console.log('ranaSSSSSSSSSSSSSSSSSSSSSSSSSSSS ');
+
+  const obj = fileResponse.find((item) => Number(item.documentId) === Number(payload.userName));
+
+  console.log('rana object find is.....', obj);
+  console.log('rana.... login payload is... ', payload);
+
+  if (obj) {
+    res.status(200).json({ objs });
+  } else {
+    res
+      .status(401)
+      .json({ message: 'incorrect details entered', error: 'user details are incorrect' });
+  }
 });
 
 app.get('/getAllUsers', async (req, res) => {

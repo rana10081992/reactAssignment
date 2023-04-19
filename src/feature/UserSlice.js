@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import API_BASE_URL from './../App.constant';
 const initialState = {
   // user detail object
   userDetail: [
@@ -21,8 +22,17 @@ const initialState = {
 export const signupUser = createAsyncThunk(
   '/register',
   async ({ loggedIn, status, documentId, name, phoneNo, address }, thunkAPI) => {
+    console.log(
+      'rana 2222222.... payload in registwer slice js is... ',
+      loggedIn,
+      status,
+      documentId,
+      name,
+      phoneNo,
+      address
+    );
     try {
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -52,23 +62,28 @@ export const signupUser = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk('/login', async (thunkAPI) => {
+export const loginUser = createAsyncThunk('/login', async ({ userName, password }, thunkAPI) => {
+  console.log('rana.... payload in slice js is... ', userName, password);
   try {
     console.log('rana loop coming here... ');
-    const response = await fetch('http://localhost:3000/login', {
-      method: 'get',
+    const response = await fetch(`${API_BASE_URL}/login`, {
+      method: 'post',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        userName,
+        password
+      })
     });
     let data = await response.json();
     console.log('response', data);
     if (response.status === 200) {
-      localStorage.setItem('token', data.token);
       return data;
     } else {
       return thunkAPI.rejectWithValue(data);
     }
+    // { return thunkAPI.rejectWithValue(data); }
   } catch (e) {
     console.log('Error', e.response.data);
     thunkAPI.rejectWithValue(e.response.data);
@@ -131,8 +146,8 @@ export const userSlice = createSlice({
       state.userDetail = payload;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      console.log('rana.... ', payload);
-      state.userDetail = payload;
+      console.log('rana 33333333333.... ', payload);
+      state.userDetail = payload.obj;
       state.isFetching = false;
       state.isError = false;
       state.isSuccess = true;
@@ -142,7 +157,7 @@ export const userSlice = createSlice({
       console.log('payload', payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      // state.errorMessage = payload.message;
     },
     [loginUser.pending]: (state) => {
       state.isFetching = true;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { loginUser, userSelector, clearState } from '../../feature/UserSlice';
 
 // Login component
@@ -31,6 +33,8 @@ const Login = () => {
   useEffect(() => {
     // handle error part
     if (isError) {
+      // display toast with error message
+      toast.error('incorrect user details entered');
       // on error state dispatch and clear the data state
       dispatch(clearState());
     }
@@ -51,11 +55,13 @@ const Login = () => {
     e.preventDefault();
     setSubmitted(true);
     if (username && password) {
-      console.log('rana name and password entered is.... ', username, password, from);
-      // get return url from location state or default to home page
-      const { from } = location.state || { from: { pathname: '/' } };
+      // creating payload for login
+      const loginPayload = {
+        userName: username,
+        password: password
+      };
       // dispatch login action on method call
-      dispatch(loginUser(username, password, from));
+      dispatch(loginUser(loginPayload));
     }
   };
 
@@ -91,6 +97,17 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

@@ -14,6 +14,7 @@ const Home = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
+    console.log('rana user details from store is....... ', userDetail);
     if (userDetail) {
       console.log('rana able to read user detail from redux store..');
     } else {
@@ -72,7 +73,7 @@ const Home = () => {
             </p>
             <p>
               <span className="font_bold">Address </span>
-              <span>SOPRA BANKING OFFICE , noida sector- 132</span>
+              <span>{userDetail.address}</span>
             </p>
           </div>
         </div>

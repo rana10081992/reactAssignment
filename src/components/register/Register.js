@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { signupUser } from '../../feature/UserSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { userSelector, clearState } from '../../feature/UserSlice';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
+
+import { userSelector, clearState } from '../../feature/UserSlice';
+import API_BASE_URL from './../../App.constant';
 
 const Register = () => {
   let existingUserDetails = [];
@@ -79,7 +81,7 @@ const Register = () => {
   };
 
   const getAllUsers = async () => {
-    const res = await fetch('http://localhost:3000/getAllUsers', {
+    const res = await fetch(`${API_BASE_URL}/getAllUsers`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json'

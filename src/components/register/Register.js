@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { signupUser } from '../../feature/UserSlice';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,7 +12,7 @@ import API_BASE_URL from './../../App.constant';
 
 const Register = () => {
   let existingUserDetails = [];
-  const location = useLocation();
+  // const location = useLocation();
 
   // to dispatch the action
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const Register = () => {
   };
 
   // validation schema using yup
-  const validationSchema = (e) => {
+  const validationSchema = () => {
     return Yup.object().shape({
       name: Yup.string().required('Name is required'),
       documentId: Yup.string().required('Document Id is required'),
@@ -110,7 +110,7 @@ const Register = () => {
         console.log('rana calling the registration API...');
         toast.success('rana you can go for registration..');
         // get return url from location state or default to home page
-        const { from } = location.state || { from: { pathname: '/' } };
+        // const { from } = location.state || { from: { pathname: '/' } };
         // create payload for user registration with documnet id as number type
         const userDetails = {
           documentId: Number(formData.documentId),
@@ -132,31 +132,13 @@ const Register = () => {
     handleExistingUser(data);
   };
 
-  const submitRegistration = (event) => {
-    event.preventDefault();
-    console.log('rana ,ethod calling.... ', event);
-    let userDetails = {
-      loggedIn: true,
-      token: 'aabbccdd-1122-3344XXXXXX',
-      status: 200,
-      documentId: 2000,
-      title: 'TEST TEST TEST TEST',
-      name: 'test React 2000',
-      phoneNo: '987654200',
-      author: 'typicodeSSSSS',
-      msg: 'successful loggedInSSSSS'
-    };
-    // dispatch signup/registration action on method call
-    dispatch(signupUser(userDetails));
-  };
-
   return (
     <div className="w-75 col-sm-12 container">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onRegistrationSubmit}
-        render={({ errors, status, touched }) => (
+        render={({ errors, touched }) => (
           <>
             <Form>
               <div className="form-group">

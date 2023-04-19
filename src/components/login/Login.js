@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +17,7 @@ const Login = () => {
   // variables to read fetch, success and error from redux store
   const { isSuccess, isError } = useSelector(userSelector);
 
-  const location = useLocation();
+  // const location = useLocation();
   // to dispatch the action
   const dispatch = useDispatch();
   // variable to handle the navigation

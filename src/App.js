@@ -26,11 +26,14 @@ function App() {
       //set button true
       setLogin(true);
     } else {
+      localStorage.removeItem('documentURL');
       navigate('/login');
     }
   }, [isSuccess]);
 
   const logoutUser = () => {
+    // clear photo data
+    localStorage.removeItem('documentURL');
     dispatch(clearState());
     setLogin(false);
   };

@@ -43,8 +43,9 @@ const Register = () => {
     }
     // handle success part
     if (isSuccess) {
+      console.log('rana/....... successful...........', )
       // on True route to Home
-      navigate('/home');
+      navigate('/documentUpload');
     }
   }, [isError, isSuccess]);
 
@@ -208,7 +209,7 @@ const Register = () => {
               </div>
               <div className="form-group">
                 <button type="submit" className="btn btn-primary mr-2">
-                  Register
+                  Next
                 </button>
                 <button type="reset" className="btn btn-secondary">
                   Reset

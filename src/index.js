@@ -9,6 +9,7 @@ import Login from './components/login/Login';
 import Register from './components/register/Register';
 import Home from './components/home/Home';
 import store from './store';
+import DocumentUpload from './components/document-upload/DocumentUpload';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="home" element={<Home />} />
+            <Route path="documentUpload" element={<DocumentUpload />} />
           </Route>
         </Routes>
       </BrowserRouter>

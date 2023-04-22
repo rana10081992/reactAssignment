@@ -12,8 +12,11 @@ const Home = () => {
   // read value of user detail from redux store
   const { userDetail } = useSelector(userSelector);
 
+  const imageURL = localStorage.getItem('documentURL');
+
   // useEffect default method to do the action once render is complete
   useEffect(() => {
+    console.log('rana33333333333333..... image URL', imageURL);
     console.log('rana user details from store is....... ', userDetail);
     if (userDetail) {
       console.log('rana able to read user detail from redux store..');
@@ -76,6 +79,7 @@ const Home = () => {
               <span>{userDetail.address}</span>
             </p>
           </div>
+          <img src={imageURL} alt="TEST"></img>
         </div>
       ) : (
         <div className=" card text-center form">

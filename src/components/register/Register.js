@@ -43,7 +43,7 @@ const Register = () => {
     }
     // handle success part
     if (isSuccess) {
-      console.log('rana/....... successful...........', )
+      console.log('rana/....... successful...........');
       // on True route to Home
       navigate('/documentUpload');
     }
@@ -134,7 +134,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-75 col-sm-12 container">
+    <div className="w-96 mb-w-full container">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -207,11 +207,11 @@ const Register = () => {
                 />
                 <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
               </div>
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary mr-2">
+              <div className="form-group pt-2">
+                <button type="submit" className="btn btn-primary mr-2 bg-blue-500 px-3">
                   Next
                 </button>
-                <button type="reset" className="btn btn-secondary">
+                <button type="reset" className="btn btn-secondary bg-gray-600 px-3">
                   Reset
                 </button>
               </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
 import storage from '../../firebase.config';
@@ -60,10 +59,10 @@ const DocumentUpload = () => {
   // };
 
   return (
-    <div>
+    <div className="my-3 flex justify-center items-center">
       <input type="file" onChange={handleChange} accept="/image/*" />
       <button onClick={handleUpload}>Upload to Firebase</button>
-      <p>{percent} "% done"</p>
+      <p>{percent} % done</p>
     </div>
   );
 };

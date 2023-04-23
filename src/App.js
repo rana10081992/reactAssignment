@@ -40,12 +40,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="text-center">Learn React Assignment</h1>
-      <br />
       {!displayLogin ? (
         <div className="text-center">
-          <div className="mb-3">
-            <img src={sopraLogo}></img>
+          <div className="my-3 flex justify-center items-center">
+            <img src={sopraLogo} className='mx-auto'></img>
           </div>
           <Link to="/login" className="link_text">
             Login

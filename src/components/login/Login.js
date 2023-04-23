@@ -66,7 +66,7 @@ const Login = () => {
   };
 
   return (
-    <div className="w-75 col-sm-12 container">
+    <div className="w-96 mb-w-full container">
       <form name="form" onSubmit={onSubmit}>
         <div className="form-group">
           <label>Username</label>
@@ -90,7 +90,7 @@ const Login = () => {
           />
           {submitted && !password && <div className="invalid-feedback">Password is required</div>}
         </div>
-        <div className="form-group container">
+        <div className="form-group flex mt-3 justify-center items-center">
           <button className="btn btn-primary">
             {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
             Login

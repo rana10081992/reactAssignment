@@ -59,7 +59,7 @@ const DocumentUpload = () => {
   // };
 
   return (
-    <div className="my-3 flex justify-center items-center">
+    <div className="bg-white justify-center items-center h-32 mt-16 p-8 w-96 mx-auto">
       <input type="file" onChange={handleChange} accept="/image/*" />
       <button onClick={handleUpload}>Upload to Firebase</button>
       <p>{percent} % done</p>

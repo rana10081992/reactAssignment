@@ -54,7 +54,7 @@ function App() {
           </Link>
         </div>
       ) : (
-        <button onClick={logoutUser} className="btn btn-primary float-end mx-3 ">
+        <button onClick={logoutUser} className="btn btn-primary float-end mx-3 my-3 ">
           Logout
         </button>
       )}

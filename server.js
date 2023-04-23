@@ -53,7 +53,7 @@ app.post('/login', async (req, res) => {
   console.log('rana.... login payload is... ', payload);
 
   if (obj) {
-    res.status(200).json({ objs });
+    res.status(200).json({ obj });
   } else {
     res
       .status(401)

@@ -46,22 +46,16 @@ const Home = () => {
   // UI part
   return (
     <div className="text-center">
-      <div htmlFor="" className="home_screen_text">
-        Home screen
-      </div>
+      <div className="my-3 flex justify-center items-center">Home screen</div>
       <div>
         <button
           onClick={setUserProfile}
-          className={`profile_button ${
-            displayProfile ? 'selected_button' : 'not_selected_button'
-          }`}>
+          className={`profile_button ${displayProfile ? 'bg-blue-500' : 'not_selected_button'}`}>
           Profile Details
         </button>
         <button
           onClick={setProducts}
-          className={`profile_button ${
-            !displayProfile ? 'selected_button' : 'not_selected_button'
-          }`}>
+          className={`profile_button ${!displayProfile ? 'bg-blue-500' : 'not_selected_button'}`}>
           Products Details
         </button>
       </div>

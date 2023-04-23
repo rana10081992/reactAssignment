@@ -1,20 +1,23 @@
 .home_screen_text {
-    font-size: large;
-    font-weight: bold;
+  font-size: large;
+  font-weight: bold;
+  position: relative;
+  left: 45px;
 }
 
 .selected_button {
-    background-color: rgb(156, 165, 221);
+  background-color: rgb(156, 165, 221);
 }
 
 .not_selected_button {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .profile_button {
-    padding: 10px;
-    border-radius: 5px;
+  padding: 10px;
+  border-radius: 5px;
 }
-.font_bold{
-font-weight: bold;
+
+.font_bold {
+  font-weight: bold;
 }

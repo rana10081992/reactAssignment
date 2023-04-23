@@ -59,10 +59,12 @@ const DocumentUpload = () => {
   // };
 
   return (
-    <div className="bg-white justify-center items-center h-32 mt-16 p-8 w-96 mx-auto">
-      <input type="file" onChange={handleChange} accept="/image/*" />
-      <button onClick={handleUpload}>Upload to Firebase</button>
-      <p>{percent} % done</p>
+    <div className="bg-white justify-center items-center h-46 mt-16 p-8 w-96 mx-auto">
+      <input type="file" onChange={handleChange} accept="/image/*" className="form-control" />
+      <button onClick={handleUpload} className="btn btn-outline-primary mr-2 px-3 mt-3">
+        Upload to Firebase
+      </button>
+      <p className="mt-3">{percent} % done</p>
     </div>
   );
 };

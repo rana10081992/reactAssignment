@@ -15,7 +15,7 @@ const Home = () => {
   // read value of user detail from redux store
   const { userDetail } = useSelector(userSelector);
 
-  const imageURL = localStorage.getItem('documentURL');
+  const imageURL = localStorage.getItem('documentURL') || null;
 
   const updateUserDoc = () => {
     // on True route to document upload section
@@ -46,7 +46,7 @@ const Home = () => {
   // UI part
   return (
     <div className="text-center">
-      <div className="my-3 flex justify-center items-center">Home screen</div>
+      <p className="my-3 home_screen_text ">Home screen</p>
       <div>
         <button
           onClick={setUserProfile}
@@ -61,28 +61,45 @@ const Home = () => {
       </div>
 
       {displayProfile ? (
-        <div className="card text-center form">
-          <div className="card-header font_bold">Profile Details</div>
-          <div className="card-body">
-            <p>
-              <span className="font_bold">Document Id : </span>
-              <span>{userDetail.documentId}</span>
-            </p>
-            <p>
-              <span className="font_bold">User Name : </span>
-              <span>{userDetail.name}</span>
-            </p>
-            <p>
-              <span className="font_bold">Phonen No : </span>
-              <span>{userDetail.phoneNo}</span>
-            </p>
-            <p>
-              <span className="font_bold">Address </span>
-              <span>{userDetail.address}</span>
-            </p>
+        <div className="card text-center form ">
+          <div className="row ">
+            <p className="font_bold d-flex justify-content-center card-header ">Profile Details</p>
+            <div className="col">
+              <div className="card-body">
+                <p>
+                  <span className="font_bold">Document Id : </span>
+                  <span>{userDetail.documentId}</span>
+                </p>
+                <p>
+                  <span className="font_bold">User Name : </span>
+                  <span>{userDetail.name}</span>
+                </p>
+                <p>
+                  <span className="font_bold">Phonen No : </span>
+                  <span>{userDetail.phoneNo}</span>
+                </p>
+                <p>
+                  <span className="font_bold">Address </span>
+                  <span>{userDetail.address}</span>
+                </p>
+              </div>
+              <div className="text-center">
+                <button
+                  onClick={updateUserDoc}
+                  className="btn btn-outline-primary w-50 items-center">
+                  Update User document
+                </button>
+              </div>
+            </div>
+            <div className="col-md-auto">
+              {!!imageURL && (
+                <img
+                  src={imageURL}
+                  alt="No image uploaded"
+                  className="mt-3 rounded float-right w-40 h-40"></img>
+              )}
+            </div>
           </div>
-          <button onClick={updateUserDoc}>Update User document</button>
-          <img src={imageURL} alt="TEST"></img>
         </div>
       ) : (
         <div className=" card text-center form">

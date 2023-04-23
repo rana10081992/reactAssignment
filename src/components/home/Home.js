@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { userSelector } from './../../feature/UserSlice';
 import './Home.css';
 
 // home component to display the home details
 const Home = () => {
+  // variable to handle the navigation
+  const navigate = useNavigate();
   // display profile to display the profile details
   const [displayProfile, setProfile] = useState(true);
 
@@ -13,6 +16,11 @@ const Home = () => {
   const { userDetail } = useSelector(userSelector);
 
   const imageURL = localStorage.getItem('documentURL');
+
+  const updateUserDoc = () => {
+    // on True route to document upload section
+    navigate('/documentUpload');
+  };
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
@@ -79,6 +87,7 @@ const Home = () => {
               <span>{userDetail.address}</span>
             </p>
           </div>
+          <button onClick={updateUserDoc}>Update User document</button>
           <img src={imageURL} alt="TEST"></img>
         </div>
       ) : (

@@ -14,7 +14,12 @@ test('renders learn react link', () => {
       </BrowserRouter>
     </Provider>
   );
-  const linkElement = screen.getByText('Learn React Assignment');
-  screen.debug(linkElement);
-  expect(linkElement).toBeInTheDocument();
+  const loginLinkElement = screen.getByText('Login');
+  expect(loginLinkElement).toBeInTheDocument();
+
+  const registerLinkElement = screen.getByText('Register');
+  expect(registerLinkElement).toBeInTheDocument();
+
+  // const registerLinkElement = screen.getByText('Register');
+  // expect(registerLinkElement).toBeInTheDocument();
 });

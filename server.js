@@ -43,15 +43,8 @@ app.post('/login', async (req, res) => {
   const file = await fs.readFile(userDetailFileName);
   const fileResponse = JSON.parse(file);
 
-  console.log('rana payload... ', payload.userName);
   console.log('rana db users are... ', fileResponse);
-  console.log('ranaSSSSSSSSSSSSSSSSSSSSSSSSSSSS ');
-
   const obj = fileResponse.find((item) => Number(item.documentId) === Number(payload.userName));
-
-  console.log('rana object find is.....', obj);
-  console.log('rana.... login payload is... ', payload);
-
   if (obj) {
     res.status(200).json({ obj });
   } else {
@@ -66,15 +59,6 @@ app.get('/getAllUsers', async (req, res) => {
   const file = await fs.readFile(userDetailFileName);
   const fileResponse = JSON.parse(file);
   res.json(fileResponse);
-});
-
-app.get('/home', (req, res) => {
-  res.json({
-    documentId: 1000,
-    name: 'test React 1000',
-    phoneNo: '9876541000',
-    address: 'test home address'
-  });
 });
 
 app.post('/register', async (req, res) => {
@@ -95,6 +79,15 @@ app.post('/register', async (req, res) => {
     res: 200,
     userDetails: userDetails,
     msg: 'registration done successfully'
+  });
+});
+
+app.get('/productDetails', (req, res) => {
+  res.json({
+    accountTypeOne: 'SAVINGS',
+    accountTypeTwo: 'CVCC',
+    bankingType: 'DIGITAL',
+    phoneNo: '+91-999-234-5678'
   });
 });
 

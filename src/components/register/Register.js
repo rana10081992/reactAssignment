@@ -43,7 +43,6 @@ const Register = () => {
     }
     // handle success part
     if (isSuccess) {
-      console.log('rana/....... successful...........');
       // on True route to Home
       navigate('/documentUpload');
     }
@@ -89,26 +88,19 @@ const Register = () => {
       }
     });
     const result = await res.json();
-    console.log('rana API res is...', result);
     return result;
   };
 
   const handleExistingUser = (formData) => {
-    console.log('rana form data.... ', formData);
-    console.log('rana form data.... ', Number(formData.documentId));
     const formDocumentId = Number(formData.documentId);
-    console.log('rana....  form document id is.. ', formDocumentId);
     // send form data document id as number
     if (formData) {
       const obj = existingUserDetails.find(
         (item) => Number(item.documentId) === Number(formData.documentId)
       );
-      console.log('rana object find is.....', obj);
       if (obj) {
-        console.log('rana user already exists with id.. ', obj.documentId);
         toast.error('user already exists with id ' + obj.documentId);
       } else {
-        console.log('rana calling the registration API...');
         toast.success('rana you can go for registration..');
         // get return url from location state or default to home page
         // const { from } = location.state || { from: { pathname: '/' } };
@@ -123,7 +115,6 @@ const Register = () => {
         dispatch(signupUser(userDetails));
       }
     } else {
-      console.log('rana user form data is invalid ');
       toast.error('invalid form data');
     }
   };

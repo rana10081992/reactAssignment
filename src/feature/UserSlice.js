@@ -13,6 +13,7 @@ const initialState = {
     // msg: '',
     // messageRcvd: ''
   ],
+  products: {},
   loggedIn: false,
   isFetching: false,
   isSuccess: false,
@@ -22,15 +23,6 @@ const initialState = {
 export const signupUser = createAsyncThunk(
   '/register',
   async ({ loggedIn, status, documentId, name, phoneNo, address }, thunkAPI) => {
-    console.log(
-      'rana 2222222.... payload in registwer slice js is... ',
-      loggedIn,
-      status,
-      documentId,
-      name,
-      phoneNo,
-      address
-    );
     try {
       const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
@@ -48,7 +40,6 @@ export const signupUser = createAsyncThunk(
         })
       });
       let data = await response.json();
-      console.log('data', data);
 
       if (response.status === 200) {
         return { ...data };
@@ -56,16 +47,13 @@ export const signupUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(data);
       }
     } catch (e) {
-      console.log('Error', e.response.data);
       return thunkAPI.rejectWithValue(e.response.data);
     }
   }
 );
 
 export const loginUser = createAsyncThunk('/login', async ({ userName, password }, thunkAPI) => {
-  console.log('rana.... payload in slice js is... ', userName, password);
   try {
-    console.log('rana loop coming here... ');
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'post',
       headers: {
@@ -77,45 +65,38 @@ export const loginUser = createAsyncThunk('/login', async ({ userName, password 
       })
     });
     let data = await response.json();
-    console.log('response', data);
     if (response.status === 200) {
       return data;
     } else {
       return thunkAPI.rejectWithValue(data);
     }
-    // { return thunkAPI.rejectWithValue(data); }
   } catch (e) {
-    console.log('Error', e.response.data);
     thunkAPI.rejectWithValue(e.response.data);
   }
 });
 
-export const fetchUserBytoken = createAsyncThunk(
-  'users/fetchUserByToken',
-  async ({ token }, thunkAPI) => {
-    try {
-      const response = await fetch('https://mock-user-auth-server.herokuapp.com/api/v1/users', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: token,
-          'Content-Type': 'application/json'
-        }
-      });
-      let data = await response.json();
-      console.log('data', data, response.status);
-
-      if (response.status === 200) {
-        return { ...data };
-      } else {
-        return thunkAPI.rejectWithValue(data);
-      }
-    } catch (e) {
-      console.log('Error', e.response.data);
-      return thunkAPI.rejectWithValue(e.response.data);
+export const prouductDetails = createAsyncThunk('/productDetails', async ({}, thunkAPI) => {
+  console.log('rana.... inside API...');
+  try {
+    const response = await fetch(`${API_BASE_URL}/productDetails`, {
+      method: 'GET'
+      // headers: {
+      //   Accept: 'application/json',
+      //   'Content-Type': 'application/json'
+      // },
+      // body: JSON.stringify({})
+    });
+    console.log('rana inside API...');
+    let data = await response.json();
+    if (response.status === 200) {
+      return { ...data };
+    } else {
+      return thunkAPI.rejectWithValue(data);
     }
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.response.data);
   }
-);
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -131,9 +112,7 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
-      console.log('rana payload in redux coming is.. ', payload);
       state.userDetail = payload.userDetails;
-      console.log('rana.... ', state.userDetail);
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -146,7 +125,6 @@ export const userSlice = createSlice({
       state.userDetail = payload;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      console.log('rana 33333333333.... ', payload);
       state.userDetail = payload.obj;
       state.isFetching = false;
       state.isError = false;
@@ -154,7 +132,6 @@ export const userSlice = createSlice({
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      console.log('payload', payload);
       state.isFetching = false;
       state.isError = true;
       // state.errorMessage = payload.message;
@@ -162,18 +139,14 @@ export const userSlice = createSlice({
     [loginUser.pending]: (state) => {
       state.isFetching = true;
     },
-    [fetchUserBytoken.pending]: (state) => {
+    [prouductDetails.fulfilled]: (state, { payload }) => {
+      state.products = payload;
+      // state.isFetching = false;
+    },
+    [prouductDetails.pending]: (state) => {
       state.isFetching = true;
     },
-    [fetchUserBytoken.fulfilled]: (state, { payload }) => {
-      state.isFetching = false;
-      state.isSuccess = true;
-
-      state.email = payload.email;
-      state.username = payload.name;
-    },
-    [fetchUserBytoken.rejected]: (state) => {
-      console.log('fetchUserBytoken');
+    [prouductDetails.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
     }

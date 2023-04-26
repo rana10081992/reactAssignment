@@ -20,9 +20,7 @@ function App() {
   const { isSuccess } = useSelector(userSelector);
 
   useEffect(() => {
-    console.log('rana99999999999.....', isSuccess);
     if (isSuccess) {
-      console.log('rana... user successfully loggedin');
       //set button true
       setLogin(true);
     } else {
@@ -43,7 +41,7 @@ function App() {
       {!displayLogin ? (
         <div className="text-center">
           <div className="my-3 flex justify-center items-center">
-            <img src={sopraLogo} className='mx-auto'></img>
+            <img src={sopraLogo} className="mx-auto"></img>
           </div>
           <Link to="/login" className="link_text">
             Login

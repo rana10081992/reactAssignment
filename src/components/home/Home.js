@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import { userSelector } from './../../feature/UserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { prouductDetails, userSelector } from '../../feature/UserSlice';
 import './Home.css';
 
 // home component to display the home details
@@ -15,6 +14,11 @@ const Home = () => {
   // read value of user detail from redux store
   const { userDetail } = useSelector(userSelector);
 
+  // read value of user detail from redux store
+  const { products } = useSelector(userSelector);
+
+  const dispatch = useDispatch();
+
   const imageURL = localStorage.getItem('documentURL') || null;
 
   const updateUserDoc = () => {
@@ -24,14 +28,27 @@ const Home = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    console.log('rana33333333333333..... image URL', imageURL);
-    console.log('rana user details from store is....... ', userDetail);
+    console.log('rana....  call action ');
+    dispatch(prouductDetails({}));
     if (userDetail) {
-      console.log('rana able to read user detail from redux store..');
+      // console.log('rana able to read user detail from redux store..');
     } else {
-      console.log('rana user detail fetch failed');
+      // console.log('rana user detail fetch failed');
     }
   }, []);
+
+  // default method once component render is commpleted
+  //  useEffect(() => {
+  //   console.log('rana 2222222222222....  call action ')
+  //   dispatch(prouductDetails({}));
+  //   if (userDetail) {
+  //   } else {
+  //     // console.log('rana user detail fetch failed');
+  //   }
+  //   return () => {
+  //     // dispatch(clearState());
+  //   };
+  // }, []);
 
   // method to set and display the user profile
   const setUserProfile = () => {
@@ -107,19 +124,19 @@ const Home = () => {
           <div className="card-body">
             <p>
               <span className="font_bold">Account Type one offered : </span>
-              <span>SAVINGS</span>
+              <span>{products.accountTypeOne}</span>
             </p>
             <p>
               <span className="font_bold">Account Type two offered : </span>
-              <span>SVCC</span>
+              <span>{products.accountTypeTwo}</span>
             </p>
             <p>
               <span className="font_bold">Banking type : </span>
-              <span>DIGITAL</span>
+              <span>{products.bankingType}</span>
             </p>
             <p>
               <span className="font_bold">Helpline no : </span>
-              <span>+91-999-234-5678</span>
+              <span>{products.phoneNo}</span>
             </p>
           </div>
         </div>

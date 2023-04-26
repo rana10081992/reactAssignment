@@ -10,6 +10,9 @@ import store from './store';
 import DocumentUpload from './components/document-upload/DocumentUpload';
 import React from 'react';
 import fetchMock from 'jest-fetch-mock';
+import ReactDOM from 'react-dom/client';
+
+import reportWebVitals from './reportWebVitals';
 
 describe('Index JS', () => {
   global.fetch = jest.fn(() =>
@@ -37,7 +40,22 @@ describe('Index JS', () => {
         </BrowserRouter>
       </Provider>
     );
+
     // const linkElement = screen.getByText('Upload to Firebase');
     // expect(linkElement).toBeInTheDocument();
   });
+
+  test('renders root element with ID', () => {
+    const root = document.createElement('div');
+    root.id = 'root';
+    document.body.appendChild(root);
+    ReactDOM.createRoot(root);
+    expect(document.getElementById('root')).toBeTruthy();
+  });
+
+  // jest.spyOn(reportWebVitals, 'default');
+  // test('calls reportWebVitals', () => {
+  //   reportWebVitals();
+  //   expect(reportWebVitals).toHaveBeenCalled();
+  // });
 });

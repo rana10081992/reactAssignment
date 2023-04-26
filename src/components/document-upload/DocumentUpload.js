@@ -30,7 +30,7 @@ const DocumentUpload = () => {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
+          // console.log(url);
           // download(url);
           localStorage.setItem('documentURL', url);
           navigate('/home');

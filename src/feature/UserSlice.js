@@ -75,7 +75,7 @@ export const loginUser = createAsyncThunk('/login', async ({ userName, password 
   }
 });
 
-export const prouductDetails = createAsyncThunk('/productDetails', async ({}, thunkAPI) => {
+export const prouductDetails = createAsyncThunk('/productDetails', async (undef, thunkAPI) => {
   console.log('rana.... inside API...');
   try {
     const response = await fetch(`${API_BASE_URL}/productDetails`, {

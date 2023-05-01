@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { prouductDetails, userSelector } from '../../feature/UserSlice';
 import './Home.css';
+import sopraLogo from './../../assets/sopraLogo.png';
+import sopraHome from './../../assets/sopraHome.jpg';
 
 // home component to display the home details
 const Home = () => {
   // variable to handle the navigation
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // display profile to display the profile details
   const [displayProfile, setProfile] = useState(true);
 
@@ -15,16 +17,16 @@ const Home = () => {
   const { userDetail } = useSelector(userSelector);
 
   // read value of user detail from redux store
-  const { products } = useSelector(userSelector);
+  // const { products } = useSelector(userSelector);
 
   const dispatch = useDispatch();
 
-  const imageURL = localStorage.getItem('documentURL') || null;
+  // const imageURL = localStorage.getItem('docUrl') || null;
 
-  const updateUserDoc = () => {
-    // on True route to document upload section
-    navigate('/documentUpload');
-  };
+  // const updateUserDoc = () => {
+  //   // on True route to document upload section
+  //   navigate('/documentUpload');
+  // };
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
@@ -63,8 +65,20 @@ const Home = () => {
   // UI part
   return (
     <div className="text-center">
-      <p className="my-3 home_screen_text ">Home screen</p>
-      <div>
+      {/* <div>HELLO</div> */}
+      {/* <Header/> */}
+      <div className="justify-center items-center">
+        <div>
+          <img src={sopraHome}></img>
+        </div>
+        <p className="text-white">
+          The Open Innovation Report 2023: how corporate-startup collaboration is the key to
+          thriving amid economic turbulence
+        </p>
+      </div>
+      {/* <p className="my-3 home_screen_text ">Home screen</p> */}
+      {/* <Headers/> */}
+      {/* <div>
         <button
           onClick={setUserProfile}
           className={`profile_button ${displayProfile ? 'bg-blue-500' : 'not_selected_button'}`}>
@@ -75,9 +89,9 @@ const Home = () => {
           className={`profile_button ${!displayProfile ? 'bg-blue-500' : 'not_selected_button'}`}>
           Products Details
         </button>
-      </div>
+      </div> */}
 
-      {displayProfile ? (
+      {/* {displayProfile ? (
         <div className="card text-center form ">
           <div className="row ">
             <p className="font_bold d-flex justify-content-center card-header ">Profile Details</p>
@@ -140,7 +154,7 @@ const Home = () => {
             </p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -57,12 +57,14 @@ const Register = () => {
     password: '',
     confirmPassword: ''
   };
+  const documents = ['Pan Card', 'Aadhar Card', 'Voter Card'];
 
   // validation schema using yup
   const validationSchema = () => {
     return Yup.object().shape({
       name: Yup.string().required('Name is required'),
-      documentId: Yup.string().required('Document Id is required'),
+      documentId: Yup.string().required('Please select a document').oneOf(documents),
+      // documentId: Yup.string().required('Document Id is required'),
       address: Yup.string()
         .required('Address is required')
         .min(6, 'address must be at least 6 characters')
@@ -92,7 +94,7 @@ const Register = () => {
   };
 
   const handleExistingUser = (formData) => {
-    const formDocumentId = Number(formData.documentId);
+    // const formDocumentId = Number(formData.documentId);
     // send form data document id as number
     if (formData) {
       const obj = existingUserDetails.find(
@@ -106,11 +108,12 @@ const Register = () => {
         // const { from } = location.state || { from: { pathname: '/' } };
         // create payload for user registration with documnet id as number type
         const userDetails = {
-          documentId: Number(formData.documentId),
+          documentType: formData.documentId,
           name: formData.name,
           address: formData.address,
           phoneNo: formData.phoneNo
         };
+        console.log('rana3333333333333333333333333333... form is is... ', formData);
         // dispatch signup/registration action on method call
         dispatch(signupUser(userDetails));
       }
@@ -123,6 +126,12 @@ const Register = () => {
   const onRegistrationSubmit = (data) => {
     handleExistingUser(data);
   };
+
+  const productOptions = documents.map((document, key) => (
+    <option value={document} key={key}>
+      {document}
+    </option>
+  ));
 
   return (
     <div className="w-96 mb-w-full container">
@@ -146,11 +155,13 @@ const Register = () => {
                 <label htmlFor="documentId">document Id: </label>
                 <Field
                   name="documentId"
-                  type="text"
+                  as="select"
                   className={
                     'form-control' + (errors.documentId && touched.documentId ? ' is-invalid' : '')
-                  }
-                />
+                  }>
+                  <option value={''}>Select a product</option>
+                  {productOptions}
+                </Field>
                 <ErrorMessage name="documentId" component="div" className="invalid-feedback" />
               </div>
               <div className="form-group">

@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
 import Login from './Login';
 import React from 'react';
-import fetchMock from 'jest-fetch-mock';
 
 describe('Login screen', () => {
   global.fetch = jest.fn(() =>

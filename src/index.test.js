@@ -8,11 +8,11 @@ import Register from './components/register/Register';
 import Home from './components/home/Home';
 import store from './store';
 import DocumentUpload from './components/document-upload/DocumentUpload';
+import ProductDetails from './components/prodcut-details/ProductDetails';
 import React from 'react';
-import fetchMock from 'jest-fetch-mock';
 import ReactDOM from 'react-dom/client';
 
-import reportWebVitals from './reportWebVitals';
+// import reportWebVitals from './reportWebVitals';
 
 describe('Index JS', () => {
   global.fetch = jest.fn(() =>
@@ -35,6 +35,7 @@ describe('Index JS', () => {
               <Route path="register" element={<Register />} />
               <Route path="home" element={<Home />} />
               <Route path="documentUpload" element={<DocumentUpload />} />
+              <Route path="productDetails" element={<ProductDetails />} />
             </Route>
           </Routes>
         </BrowserRouter>

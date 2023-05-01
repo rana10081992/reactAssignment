@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
 import Register from './Register';
 import React from 'react';
-import fetchMock from 'jest-fetch-mock';
 
 describe('MovieApiService', () => {
   global.fetch = jest.fn(() =>

@@ -13,6 +13,7 @@ const initialState = {
     // msg: '',
     // messageRcvd: ''
   ],
+  registrationData: {},
   products: {},
   loggedIn: false,
   isFetching: false,
@@ -22,7 +23,7 @@ const initialState = {
 
 export const signupUser = createAsyncThunk(
   '/register',
-  async ({ loggedIn, status, documentId, name, phoneNo, address }, thunkAPI) => {
+  async ({ loggedIn, status, documentType, name, phoneNo, address }, thunkAPI) => {
     try {
       const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
@@ -33,7 +34,7 @@ export const signupUser = createAsyncThunk(
         body: JSON.stringify({
           loggedIn,
           status,
-          documentId,
+          documentType,
           name,
           phoneNo,
           address
@@ -113,7 +114,7 @@ export const userSlice = createSlice({
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
       state.userDetail = payload.userDetails;
-      state.isFetching = false;
+      // state.isFetching = false;
       state.isSuccess = true;
     },
     [signupUser.pending]: (state) => {
@@ -131,7 +132,7 @@ export const userSlice = createSlice({
       state.isSuccess = true;
       return state;
     },
-    [loginUser.rejected]: (state, { payload }) => {
+    [loginUser.rejected]: (state) => {
       state.isFetching = false;
       state.isError = true;
       // state.errorMessage = payload.message;
@@ -146,7 +147,7 @@ export const userSlice = createSlice({
     [prouductDetails.pending]: (state) => {
       state.isFetching = true;
     },
-    [prouductDetails.rejected]: (state, { payload }) => {
+    [prouductDetails.rejected]: (state) => {
       state.isFetching = false;
       state.isError = true;
     }

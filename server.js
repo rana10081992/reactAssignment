@@ -3,6 +3,7 @@ const cors = require('cors');
 const fs = require('fs').promises;
 
 const userDetailFileName = 'userDetails.json';
+let userId = 1011;
 
 const app = express();
 app.use(cors());
@@ -23,10 +24,11 @@ for (i = 0; i < 10; i++) {
   let obj = {
     loggedIn: true,
     status: 200,
-    documentId: 1000 + i,
+    documentType: 'PAN CARD',
     name: 'test React 1000' + i,
     phoneNo: '987654100' + i,
-    address: 'home address test ' + i
+    address: 'home address test ' + i,
+    documentId: 1000 + i
   };
   data.push(obj);
 }
@@ -64,23 +66,76 @@ app.get('/getAllUsers', async (req, res) => {
 app.post('/register', async (req, res) => {
   // assign request body to obj
   const userDetails = req.body;
+  console.log('rana req body is.. ', userDetails);
 
   // reading file from local json
   const file = await fs.readFile(userDetailFileName);
   users = JSON.parse(file);
+  userId += 1;
+  const userDetail = {
+    address: userDetails.address,
+    documentType: userDetails.documentType,
+    name: userDetails.name,
+    phoneNo: userDetails.phoneNo,
+    documentId: userId
+  };
 
   // pushing new object to existing array
-  users.push(userDetails);
+  users.push(userDetail);
   console.log('rana..... users... ', users);
 
   // write updated data to the DB/JSON file
   await fs.writeFile(userDetailFileName, JSON.stringify(users));
   res.json({
     res: 200,
-    userDetails: userDetails,
+    userDetails: userDetail,
     msg: 'registration done successfully'
   });
 });
+
+// app.post('/uploadPhoto', async (req, res) => {
+//   // assign request body to obj
+//   const userDetails = req.body;
+//   const payload = req.body;
+
+//   // reading file from local json
+//   const file = await fs.readFile(userDetailFileName);
+//   const fileResponse = JSON.parse(file);
+
+//   console.log('rana db users are... ', fileResponse);
+//   const obj = fileResponse.find((item) => Number(item.documentId) === Number(payload.userName));
+//   if (obj) {
+//     // res.status(200).json({ obj });
+//     users = JSON.parse(file);
+//     userId += 1;
+//     const userDetail = {
+//       userDetails: userDetails.address,
+//       documentType: userDetails.documentType,
+//       name: userDetails.name,
+//       phoneNo: userDetails.phoneNo,
+//       documentId: userId,
+//       docUrl: userDetails
+//     };
+//     // pushing new object to existing array
+//     users.push(userDetail);
+//     console.log('rana..... users... ', users);
+
+//     // write updated data to the DB/JSON file
+//     await fs.writeFile(userDetailFileName, JSON.stringify(users));
+//     res.json({
+//       res: 200,
+//       userDetails: userDetail,
+//       msg: 'registration done successfully'
+//     });
+//   } else {
+//     res
+//       .status(401)
+//       .json({ message: 'incorrect details entered', error: 'user details are incorrect' });
+//   }
+
+//   // reading file from local json
+//   // const file = await fs.readFile(userDetailFileName);
+// });
 
 app.get('/productDetails', (req, res) => {
   res.json({

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
-import DocumentUpload from './DocumentUpload';
+import ProductDetails from './ProductDetails';
 import React from 'react';
 
 describe('Document Upload', () => {
@@ -21,11 +21,11 @@ describe('Document Upload', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <DocumentUpload />
+          <ProductDetails />
         </BrowserRouter>
       </Provider>
     );
-    const linkElement = screen.getByText('Upload Document');
+    const linkElement = screen.getByText('Product Details');
     expect(linkElement).toBeInTheDocument();
   });
 
@@ -33,7 +33,7 @@ describe('Document Upload', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <DocumentUpload />
+          <ProductDetails />
         </BrowserRouter>
       </Provider>
     );

@@ -41,11 +41,11 @@ const UserDetails = () => {
 
   // UI part
   return (
-    <div className="text-center mt-6 bg-orange-300">
-      <div className="flex flex-row card text-center form bg-red-700  ">
+    <div className="text-center mt-6">
+      <div className="flex flex-row card text-center form ">
         <div className="row">
           <p className="font_bold d-flex justify-content-center card-header ">Profile Details</p>
-          <div className="col-8 bg-lime-400">
+          <div className="col-8">
             <div className="card-body bg-black">
               <p>
                 <span className="font_bold">Document Id : </span>

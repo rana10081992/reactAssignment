@@ -25,7 +25,7 @@ describe('Login screen', () => {
         </BrowserRouter>
       </Provider>
     );
-    const linkElement = screen.getByText('Username');
+    const linkElement = screen.getByText('Phone No');
     screen.debug(linkElement);
     expect(linkElement).toBeInTheDocument();
   });

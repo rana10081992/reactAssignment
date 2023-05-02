@@ -158,8 +158,10 @@ export const userSlice = createSlice({
     [signupUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
-      state.userDetail = payload;
-      state.signUpErrorMsg = payload.error;
+      if (payload) {
+        state.userDetail = payload;
+        state.signUpErrorMsg = payload.error;
+      }
     },
     [signUpCompletion.fulfilled]: (state, { payload }) => {
       state.userDetail = payload.userDetails;

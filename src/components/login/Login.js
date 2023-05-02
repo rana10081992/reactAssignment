@@ -26,7 +26,7 @@ const Login = () => {
   // default method once component render is commpleted
   useEffect(() => {
     return () => {
-      // dispatch(clearState());
+      dispatch(clearState());
     };
   }, []);
 
@@ -69,7 +69,7 @@ const Login = () => {
     <div className="w-96 mb-w-full container">
       <form name="form" onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Username</label>
+          <label>Phone No</label>
           <input
             type="text"
             name="username"

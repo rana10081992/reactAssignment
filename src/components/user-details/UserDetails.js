@@ -19,8 +19,8 @@ const UserDetails = () => {
 
   const dispatch = useDispatch();
 
-  const imageURL = localStorage.getItem('docUrl') || null;
-  const userProfileURL = localStorage.getItem('profileUrl') || null;
+  let imageURL = userDetail.docUrl || null;
+  let userProfileURL = userDetail.photoUrl || null;
 
   const updateUserDoc = () => {
     // on True route to document upload section
@@ -29,10 +29,17 @@ const UserDetails = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    console.log('rana....  call action ');
+    console.log(
+      'rana99999999999999999999999999999999999999999999999999999999999999999999999999....  call action '
+    );
     console.log('rana... ', imageURL);
     dispatch(prouductDetails({}));
     if (userDetail) {
+      imageURL = userDetail.docUrl;
+      userProfileURL = userDetail.photoUrl;
+      console.log('rana..... user details are... ', userDetail);
+      console.log('rana..... profile image ... ', userDetail.docUrl);
+      console.log('rana..... user doc url is... ', userDetail.photoUrl);
       // console.log('rana able to read user detail from redux store..');
     } else {
       // console.log('rana user detail fetch failed');

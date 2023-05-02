@@ -19,7 +19,8 @@ const initialState = {
   isFetching: false,
   isSuccess: false,
   isError: false,
-  initialSignUp: false
+  initialSignUp: false,
+  signUpErrorMsg: ''
 };
 
 export const signupUser = createAsyncThunk(
@@ -50,6 +51,37 @@ export const signupUser = createAsyncThunk(
       }
     } catch (e) {
       return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+
+export const signUpCompletion = createAsyncThunk(
+  '/uploadPhoto',
+  async ({ documentId, documentType, name, phoneNo, address, docUrl, photoUrl }, thunkAPI) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/uploadPhoto`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          documentId,
+          documentType,
+          name,
+          phoneNo,
+          address,
+          docUrl,
+          photoUrl
+        })
+      });
+      let data = await response.json();
+      if (response.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      thunkAPI.rejectWithValue(e.response.data);
     }
   }
 );
@@ -108,6 +140,7 @@ export const userSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
+      state.initialSignUp = false;
 
       return state;
     }
@@ -117,7 +150,7 @@ export const userSlice = createSlice({
       state.userDetail = payload.userDetails;
       // state.isFetching = false;
       // state.isSuccess = true;
-      // state.initialSignUp = true;
+      state.initialSignUp = true;
     },
     [signupUser.pending]: (state) => {
       state.isFetching = true;
@@ -126,6 +159,20 @@ export const userSlice = createSlice({
       state.isFetching = false;
       state.isError = true;
       state.userDetail = payload;
+      state.signUpErrorMsg = payload.error;
+    },
+    [signUpCompletion.fulfilled]: (state, { payload }) => {
+      state.userDetail = payload.userDetails;
+      state.isSuccess = true;
+    },
+    [signUpCompletion.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [signUpCompletion.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      // state.userDetail = payload;
+      state.signUpErrorMsg = payload.error;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       state.userDetail = payload.obj;

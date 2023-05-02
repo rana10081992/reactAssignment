@@ -22,12 +22,14 @@ let data = [];
 //add dummy registered user
 for (i = 0; i < 10; i++) {
   let obj = {
-    loggedIn: true,
-    status: 200,
     documentType: 'PAN CARD',
     name: 'test React 1000' + i,
-    phoneNo: '987654100' + i,
+    phoneNo: '999888777' + i,
     address: 'home address test ' + i,
+    docUrl:
+      'https://firebasestorage.googleapis.com/v0/b/react-assignment-c80fc.appspot.com/o/files%2Fadhaar%20sample.jpg?alt=media&token=20e4eb19-a99e-4aa4-8718-966429adc8e7',
+    photoUrl:
+      'https://firebasestorage.googleapis.com/v0/b/react-assignment-c80fc.appspot.com/o/files%2Fsopra_2.jpg?alt=media&token=21d2199a-a8ff-4e1e-9e8d-f89a70eafdcc',
     documentId: 1000 + i
   };
   data.push(obj);
@@ -43,10 +45,11 @@ app.post('/login', async (req, res) => {
 
   // reading file from local json
   const file = await fs.readFile(userDetailFileName);
-  const fileResponse = JSON.parse(file);
+  const users = JSON.parse(file);
 
-  console.log('rana db users are... ', fileResponse);
-  const obj = fileResponse.find((item) => Number(item.documentId) === Number(payload.userName));
+  // console.log('rana db users are... ', users);
+  const obj = users.find((item) => Number(item.documentId) === Number(payload.userName));
+  console.log('rana finded user is... ', obj);
   if (obj) {
     res.status(200).json({ obj });
   } else {
@@ -65,77 +68,64 @@ app.get('/getAllUsers', async (req, res) => {
 
 app.post('/register', async (req, res) => {
   // assign request body to obj
+  const payload = req.body;
+  // reading file from local json
+  const file = await fs.readFile(userDetailFileName);
+  const users = JSON.parse(file);
+
+  // console.log('rana db users are... ', fileResponse);
+  console.log('rana phone no is... ', payload.phoneNo);
+  const obj = users.find((item) => Number(item.phoneNo) === Number(payload.phoneNo));
+  console.log('rana.... ', obj);
+  if (obj) {
+    res
+      .status(401)
+      .json({ message: 'phone No already registered', error: 'phone no already in use' });
+  } else {
+    userId += 1;
+    const userDetail = {
+      address: payload.address,
+      documentType: payload.documentType,
+      name: payload.name,
+      phoneNo: payload.phoneNo,
+      documentId: userId
+    };
+    // pushing new object to existing array
+    users.push(userDetail);
+    console.log('rana..... users... ', users);
+    // write updated data to the DB/JSON file
+    await fs.writeFile(userDetailFileName, JSON.stringify(users));
+    res.status(200).json({ userDetails: userDetail });
+  }
+});
+
+app.post('/uploadPhoto', async (req, res) => {
+  // assign request body to obj
   const userDetails = req.body;
-  console.log('rana req body is.. ', userDetails);
+  console.log('rana paload........ ', userDetails);
 
   // reading file from local json
   const file = await fs.readFile(userDetailFileName);
-  users = JSON.parse(file);
-  userId += 1;
-  const userDetail = {
-    address: userDetails.address,
-    documentType: userDetails.documentType,
-    name: userDetails.name,
-    phoneNo: userDetails.phoneNo,
-    documentId: userId
-  };
+  let users = JSON.parse(file);
 
-  // pushing new object to existing array
-  users.push(userDetail);
-  console.log('rana..... users... ', users);
-
-  // write updated data to the DB/JSON file
-  await fs.writeFile(userDetailFileName, JSON.stringify(users));
-  res.json({
-    res: 200,
-    userDetails: userDetail,
-    msg: 'registration done successfully'
-  });
+  console.log('rana db users are... ', users);
+  const obj = users.find((item) => Number(item.phoneNo) === Number(userDetails.phoneNo));
+  console.log('rana........ ', obj);
+  if (obj) {
+    users = users.map((u) => (u.phoneNo !== obj.phoneNo ? u : userDetails));
+    // write updated data to the DB/JSON file
+    await fs.writeFile(userDetailFileName, JSON.stringify(users));
+    res.json({
+      res: 200,
+      userDetails: userDetails,
+      msg: 'registration done successfully'
+    });
+  } else {
+    res
+      .status(401)
+      .json({ message: 'incorrect details entered', error: 'user details are incorrect' });
+  }
 });
-
-// app.post('/uploadPhoto', async (req, res) => {
-//   // assign request body to obj
-//   const userDetails = req.body;
-//   const payload = req.body;
-
-//   // reading file from local json
-//   const file = await fs.readFile(userDetailFileName);
-//   const fileResponse = JSON.parse(file);
-
-//   console.log('rana db users are... ', fileResponse);
-//   const obj = fileResponse.find((item) => Number(item.documentId) === Number(payload.userName));
-//   if (obj) {
-//     // res.status(200).json({ obj });
-//     users = JSON.parse(file);
-//     userId += 1;
-//     const userDetail = {
-//       userDetails: userDetails.address,
-//       documentType: userDetails.documentType,
-//       name: userDetails.name,
-//       phoneNo: userDetails.phoneNo,
-//       documentId: userId,
-//       docUrl: userDetails
-//     };
-//     // pushing new object to existing array
-//     users.push(userDetail);
-//     console.log('rana..... users... ', users);
-
-//     // write updated data to the DB/JSON file
-//     await fs.writeFile(userDetailFileName, JSON.stringify(users));
-//     res.json({
-//       res: 200,
-//       userDetails: userDetail,
-//       msg: 'registration done successfully'
-//     });
-//   } else {
-//     res
-//       .status(401)
-//       .json({ message: 'incorrect details entered', error: 'user details are incorrect' });
-//   }
-
-//   // reading file from local json
-//   // const file = await fs.readFile(userDetailFileName);
-// });
 
 app.get('/productDetails', (req, res) => {
   res.json({

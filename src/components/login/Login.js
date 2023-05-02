@@ -93,7 +93,7 @@ const Login = () => {
         <div className="form-group flex mt-3 justify-center items-center">
           <button className="btn btn-primary">
             {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
-            Login
+            Submit
           </button>
         </div>
       </form>

@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSelector, clearState } from './feature/UserSlice';
 import App from './App';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -20,7 +19,7 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('App', () => {
-  let navigateMock, dispatchMock, useSelectorMock;
+  let navigateMock, dispatchMock;
   beforeEach(() => {
     navigateMock = jest.fn();
     useNavigate.mockReturnValue(navigateMock);
@@ -28,7 +27,7 @@ describe('App', () => {
     dispatchMock = jest.fn();
     useDispatch.mockReturnValue(dispatchMock);
 
-    useSelectorMock = jest.fn();
+    // useSelectorMock = jest.fn();
     useSelector.mockReturnValue({ isSuccess: false });
   });
 

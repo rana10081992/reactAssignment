@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { prouductDetails, userSelector } from '../../feature/UserSlice';
 import './Home.css';
-import sopraLogo from './../../assets/sopraLogo.png';
 import sopraHome from './../../assets/sopraHome.jpg';
 
 // home component to display the home details
@@ -11,7 +9,7 @@ const Home = () => {
   // variable to handle the navigation
   // const navigate = useNavigate();
   // display profile to display the profile details
-  const [displayProfile, setProfile] = useState(true);
+  // const [displayProfile, setProfile] = useState(true);
 
   // read value of user detail from redux store
   const { userDetail } = useSelector(userSelector);
@@ -53,14 +51,14 @@ const Home = () => {
   // }, []);
 
   // method to set and display the user profile
-  const setUserProfile = () => {
-    setProfile(true);
-  };
+  // const setUserProfile = () => {
+  //   setProfile(true);
+  // };
 
   // method to set and display the products details
-  const setProducts = () => {
-    setProfile(false);
-  };
+  // const setProducts = () => {
+  //   setProfile(false);
+  // };
 
   // UI part
   return (

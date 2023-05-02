@@ -18,7 +18,8 @@ const initialState = {
   loggedIn: false,
   isFetching: false,
   isSuccess: false,
-  isError: false
+  isError: false,
+  initialSignUp: false
 };
 
 export const signupUser = createAsyncThunk(
@@ -41,7 +42,7 @@ export const signupUser = createAsyncThunk(
         })
       });
       let data = await response.json();
-
+      console.log('rana... signup response is...  ', data);
       if (response.status === 200) {
         return { ...data };
       } else {
@@ -115,7 +116,8 @@ export const userSlice = createSlice({
     [signupUser.fulfilled]: (state, { payload }) => {
       state.userDetail = payload.userDetails;
       // state.isFetching = false;
-      state.isSuccess = true;
+      // state.isSuccess = true;
+      // state.initialSignUp = true;
     },
     [signupUser.pending]: (state) => {
       state.isFetching = true;

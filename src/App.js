@@ -26,6 +26,7 @@ function App() {
       setLogin(true);
     } else {
       localStorage.removeItem('docUrl');
+      localStorage.removeItem('profileUrl');
       navigate('/login');
     }
   }, [isSuccess]);
@@ -33,6 +34,7 @@ function App() {
   const logoutUser = () => {
     // clear photo data
     localStorage.removeItem('docUrl');
+    localStorage.removeItem('profileUrl');
     dispatch(clearState());
     setLogin(false);
   };
@@ -46,12 +48,23 @@ function App() {
           <div className="my-3 flex justify-center items-center">
             <img src={sopraLogo} className="mx-auto"></img>
           </div>
-          <Link to="/login" className="link_text">
+          <Link to="/login">
+            <button
+              className="text-blue-500 background-transparent text-xl font-bold px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button">
+              Signin
+            </button>
+          </Link>
+          {/* <Link to="/login" className="link_text">
             Login
-          </Link>{' '}
+          </Link> */}
           {' | '}
           <Link to="/register" className="link_text">
-            Register
+            <button
+              className="text-blue-500 background-transparent text-xl font-bold px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button">
+              New User
+            </button>
           </Link>
         </div>
       ) : (

@@ -46,7 +46,7 @@ const UserDetails = () => {
         <div className="row">
           <p className="font_bold d-flex justify-content-center card-header ">Profile Details</p>
           <div className="col-8">
-            <div className="card-body bg-black">
+            <div className="card-body">
               <p>
                 <span className="font_bold">Document Id : </span>
                 <span>{userDetail.documentId}</span>
@@ -84,12 +84,12 @@ const UserDetails = () => {
               </div>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-4 h-36">
             {!!userProfileURL && (
               <img
                 src={userProfileURL}
                 alt="No image uploaded"
-                className="mt-3 rounded float-right"></img>
+                className="mt-3 rounded float-right h-24"></img>
             )}
           </div>
         </div>

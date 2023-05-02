@@ -21,7 +21,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   // variables to read fetch, success and error from redux store
-  const { isSuccess, isError } = useSelector(userSelector);
+  const { isSuccess, isError, initialSignUp } = useSelector(userSelector);
 
   // default method once component render is commpleted
   useEffect(() => {
@@ -116,6 +116,7 @@ const Register = () => {
         console.log('rana3333333333333333333333333333... form is is... ', formData);
         // dispatch signup/registration action on method call
         dispatch(signupUser(userDetails));
+        console.log('rana action called.............');
       }
     } else {
       toast.error('invalid form data');

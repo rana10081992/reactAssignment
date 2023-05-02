@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
 import Home from './Home';
 import React from 'react';
-import fetchMock from 'jest-fetch-mock';
 
 describe('Home Screen', () => {
   global.fetch = jest.fn(() =>

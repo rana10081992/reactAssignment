@@ -156,7 +156,8 @@ const Register = () => {
           documentType: documentType,
           name: formData.name,
           address: formData.address,
-          phoneNo: formData.phoneNo
+          phoneNo: formData.phoneNo,
+          password: formData.password
         };
         console.log('rana3333333333333333333333333333... form is is... ', formData);
         // dispatch signup/registration action on method call
@@ -195,7 +196,7 @@ const Register = () => {
         documentType: userDetail.documentType,
         name: userDetail.name,
         phoneNo: userDetail.phoneNo,
-        documentId: userDetail.documentId,
+        userId: userDetail.userId,
         docUrl: docUrl,
         photoUrl: photoUrl
       };

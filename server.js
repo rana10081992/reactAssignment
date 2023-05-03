@@ -30,7 +30,8 @@ for (i = 0; i < 10; i++) {
       'https://firebasestorage.googleapis.com/v0/b/react-assignment-c80fc.appspot.com/o/files%2Fadhaar%20sample.jpg?alt=media&token=20e4eb19-a99e-4aa4-8718-966429adc8e7',
     photoUrl:
       'https://firebasestorage.googleapis.com/v0/b/react-assignment-c80fc.appspot.com/o/files%2Fsopra_2.jpg?alt=media&token=21d2199a-a8ff-4e1e-9e8d-f89a70eafdcc',
-    userId: 1000 + i
+    userId: 1000 + i,
+    password: '123412'
   };
   data.push(obj);
 }
@@ -48,10 +49,11 @@ app.post('/login', async (req, res) => {
   const users = JSON.parse(file);
 
   // console.log('rana db users are... ', users);
-  const obj = users.find((item) => Number(item.phoneNo) === Number(payload.phoneNo));
+  const obj = users.find((item) => Number(item.phoneNo) === Number(payload.phoneNo) && (item.password && payload.password));
+  const userDetail = returnData(obj);
   console.log('rana finded user is... ', obj);
   if (obj) {
-    res.status(200).json({ obj });
+    res.status(200).json({ userDetail });
   } else {
     res
       .status(401)
@@ -88,14 +90,16 @@ app.post('/register', async (req, res) => {
       documentType: payload.documentType,
       name: payload.name,
       phoneNo: payload.phoneNo,
-      userId: userId
+      userId: userId,
+      password: payload.password
     };
     // pushing new object to existing array
     users.push(userDetail);
     console.log('rana..... users... ', users);
     // write updated data to the DB/JSON file
     await fs.writeFile(userDetailFileName, JSON.stringify(users));
-    res.status(200).json({ userDetails: userDetail });
+    let userResp = returnData(userDetail);
+    res.status(200).json({ userDetails: userResp });
   }
 });
 
@@ -115,9 +119,10 @@ app.post('/uploadPhoto', async (req, res) => {
     users = users.map((u) => (u.phoneNo !== obj.phoneNo ? u : userDetails));
     // write updated data to the DB/JSON file
     await fs.writeFile(userDetailFileName, JSON.stringify(users));
+    let userResp = returnData(userDetails);
     res.json({
       res: 200,
-      userDetails: userDetails,
+      userDetails: userResp,
       msg: 'registration done successfully'
     });
   } else {
@@ -135,6 +140,20 @@ app.get('/productDetails', (req, res) => {
     phoneNo: '+91-999-234-5678'
   });
 });
+
+function returnData(user) {
+  if (user) {
+    return (user = {
+      address: user.address || null,
+      docUrl: user.docUrl || null,
+      documentType: user.documentType || null,
+      name: user.name || null,
+      phoneNo: user.phoneNo || null,
+      photoUrl: user.photoUrl || null,
+      userId: user.userId || null
+    });
+  }
+}
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`listening on ${PORT}`));

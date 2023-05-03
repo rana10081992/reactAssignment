@@ -25,7 +25,7 @@ const initialState = {
 
 export const signupUser = createAsyncThunk(
   '/register',
-  async ({ loggedIn, status, documentType, name, phoneNo, address }, thunkAPI) => {
+  async ({ loggedIn, status, documentType, name, phoneNo, address, password }, thunkAPI) => {
     try {
       const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
@@ -39,7 +39,8 @@ export const signupUser = createAsyncThunk(
           documentType,
           name,
           phoneNo,
-          address
+          address,
+          password
         })
       });
       let data = await response.json();
@@ -57,7 +58,7 @@ export const signupUser = createAsyncThunk(
 
 export const signUpCompletion = createAsyncThunk(
   '/uploadPhoto',
-  async ({ documentId, documentType, name, phoneNo, address, docUrl, photoUrl }, thunkAPI) => {
+  async ({ userId, documentType, name, phoneNo, address, docUrl, photoUrl }, thunkAPI) => {
     try {
       const response = await fetch(`${API_BASE_URL}/uploadPhoto`, {
         method: 'post',
@@ -65,7 +66,7 @@ export const signUpCompletion = createAsyncThunk(
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          documentId,
+          userId,
           documentType,
           name,
           phoneNo,
@@ -177,7 +178,7 @@ export const userSlice = createSlice({
       state.signUpErrorMsg = payload.error;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      state.userDetail = payload.obj;
+      state.userDetail = payload.userDetail;
       state.isFetching = false;
       state.isError = false;
       state.isSuccess = true;

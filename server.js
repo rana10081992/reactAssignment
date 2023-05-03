@@ -22,7 +22,7 @@ let data = [];
 //add dummy registered user
 for (i = 0; i < 10; i++) {
   let obj = {
-    documentType: 'PAN CARD',
+    documentType: '1',
     name: 'test React 1000' + i,
     phoneNo: '999888777' + i,
     address: 'home address test ' + i,

@@ -136,8 +136,24 @@ const Register = () => {
         // get return url from location state or default to home page
         // const { from } = location.state || { from: { pathname: '/' } };
         // create payload for user registration with documnet id as number type
+
+        let formdocumentType = formData.documentId;
+        let documentType = '';
+        switch (formdocumentType) {
+          case 'Pan Card':
+            documentType = '1';
+            break;
+          case 'Aadhar Card':
+            documentType = '2';
+            break;
+          case 'Voter Card':
+            documentType = '3';
+            break;
+          default:
+            alert('Please select document type');
+        }
         const userDetails = {
-          documentType: formData.documentId,
+          documentType: documentType,
           name: formData.name,
           address: formData.address,
           phoneNo: formData.phoneNo

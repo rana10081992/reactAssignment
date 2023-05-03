@@ -1,6 +1,6 @@
 import './App.css';
 import { Link, Outlet } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector, clearState } from './feature/UserSlice';
@@ -14,17 +14,12 @@ function App() {
   //for user navigation
   const navigate = useNavigate();
 
-  //display Login button default as false
-  // const [displayLogin, setLogin] = useState(false);
-
   //iSuccess selector to check wheter user has leegedIn
   const { isSuccess } = useSelector(userSelector);
 
   useEffect(() => {
     if (isSuccess) {
-      //set button true
-      //setLogin(true);
-      navigate('/home')
+      navigate('/home');
     } else {
       localStorage.removeItem('docUrl');
       localStorage.removeItem('profileUrl');
@@ -37,15 +32,12 @@ function App() {
     localStorage.removeItem('docUrl');
     localStorage.removeItem('profileUrl');
     dispatch(clearState());
-    // setLogin(false);
   };
 
   return (
     <div className="App">
       {!isSuccess ? (
         <div className="text-center">
-          {/* <div>HELLO</div> */}
-          {/* <Header/> */}
           <div className="my-3 flex justify-center items-center">
             <img src={sopraLogo} className="mx-auto"></img>
           </div>
@@ -56,9 +48,6 @@ function App() {
               Signin
             </button>
           </Link>
-          {/* <Link to="/login" className="link_text">
-            Login
-          </Link> */}
           {' | '}
           <Link to="/register" className="link_text">
             <button

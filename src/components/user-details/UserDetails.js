@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { prouductDetails, userSelector } from '../../feature/UserSlice';
@@ -8,19 +8,15 @@ import { prouductDetails, userSelector } from '../../feature/UserSlice';
 const UserDetails = () => {
   // variable to handle the navigation
   const navigate = useNavigate();
-  // display profile to display the profile details
-  // const [displayProfile, setProfile] = useState(true);
-
   // read value of user detail from redux store
   const { userDetail } = useSelector(userSelector);
-
-  // read value of user detail from redux store
-  // const { products } = useSelector(userSelector);
 
   const dispatch = useDispatch();
 
   let imageURL = userDetail.docUrl || null;
   let userProfileURL = userDetail.photoUrl || null;
+  let documentType = '';
+  const [doc, setDocType] = useState('');
 
   const updateUserDoc = () => {
     // on True route to document upload section
@@ -37,14 +33,30 @@ const UserDetails = () => {
     if (userDetail) {
       imageURL = userDetail.docUrl;
       userProfileURL = userDetail.photoUrl;
-      console.log('rana..... user details are... ', userDetail);
-      console.log('rana..... profile image ... ', userDetail.docUrl);
-      console.log('rana..... user doc url is... ', userDetail.photoUrl);
+      documentType = getDayType(userDetail.documentType);
+      setDocType(documentType);
       // console.log('rana able to read user detail from redux store..');
     } else {
       // console.log('rana user detail fetch failed');
     }
   }, []);
+
+  function getDayType(val) {
+    switch (val) {
+      case '1':
+        documentType = 'Pan Card';
+        break;
+      case '2':
+        documentType = 'Adhaar Card';
+        break;
+      case '3':
+        documentType = 'Voter Card';
+        break;
+      default:
+        documentType = '';
+    }
+    return documentType;
+  }
 
   // UI part
   return (
@@ -72,7 +84,7 @@ const UserDetails = () => {
               </p>
               <p>
                 <span className="font_bold">Document Type : </span>
-                <span>{userDetail.documentType}</span>
+                <span>{doc}</span>
               </p>
             </div>
             <div>

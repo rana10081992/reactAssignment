@@ -86,7 +86,7 @@ export const signUpCompletion = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk('/login', async ({ userName, password }, thunkAPI) => {
+export const loginUser = createAsyncThunk('/login', async ({ phoneNo, password }, thunkAPI) => {
   try {
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'post',
@@ -94,7 +94,7 @@ export const loginUser = createAsyncThunk('/login', async ({ userName, password 
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userName,
+        phoneNo,
         password
       })
     });

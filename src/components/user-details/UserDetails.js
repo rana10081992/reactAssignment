@@ -55,15 +55,15 @@ const UserDetails = () => {
           <div className="col-8">
             <div className="card-body">
               <p>
-                <span className="font_bold">Document Id : </span>
-                <span>{userDetail.documentId}</span>
+                <span className="font_bold">User Id : </span>
+                <span>{userDetail.userId}</span>
               </p>
               <p>
                 <span className="font_bold">User Name : </span>
                 <span>{userDetail.name}</span>
               </p>
               <p>
-                <span className="font_bold">Phonen No : </span>
+                <span className="font_bold">Phone No : </span>
                 <span>{userDetail.phoneNo}</span>
               </p>
               <p>

@@ -57,7 +57,7 @@ const Login = () => {
     if (username && password) {
       // creating payload for login
       const loginPayload = {
-        userName: username,
+        phoneNo: username,
         password: password
       };
       // dispatch login action on method call

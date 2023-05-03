@@ -3,7 +3,7 @@ const cors = require('cors');
 const fs = require('fs').promises;
 
 const userDetailFileName = 'userDetails.json';
-let userId = 1011;
+let userId = 1009;
 
 const app = express();
 app.use(cors());
@@ -30,7 +30,7 @@ for (i = 0; i < 10; i++) {
       'https://firebasestorage.googleapis.com/v0/b/react-assignment-c80fc.appspot.com/o/files%2Fadhaar%20sample.jpg?alt=media&token=20e4eb19-a99e-4aa4-8718-966429adc8e7',
     photoUrl:
       'https://firebasestorage.googleapis.com/v0/b/react-assignment-c80fc.appspot.com/o/files%2Fsopra_2.jpg?alt=media&token=21d2199a-a8ff-4e1e-9e8d-f89a70eafdcc',
-    documentId: 1000 + i
+    userId: 1000 + i
   };
   data.push(obj);
 }
@@ -48,7 +48,7 @@ app.post('/login', async (req, res) => {
   const users = JSON.parse(file);
 
   // console.log('rana db users are... ', users);
-  const obj = users.find((item) => Number(item.phoneNo) === Number(payload.userName));
+  const obj = users.find((item) => Number(item.phoneNo) === Number(payload.phoneNo));
   console.log('rana finded user is... ', obj);
   if (obj) {
     res.status(200).json({ obj });
@@ -88,7 +88,7 @@ app.post('/register', async (req, res) => {
       documentType: payload.documentType,
       name: payload.name,
       phoneNo: payload.phoneNo,
-      documentId: userId
+      userId: userId
     };
     // pushing new object to existing array
     users.push(userDetail);

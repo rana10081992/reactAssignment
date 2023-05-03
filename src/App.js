@@ -15,7 +15,7 @@ function App() {
   const navigate = useNavigate();
 
   //display Login button default as false
-  const [displayLogin, setLogin] = useState(false);
+  // const [displayLogin, setLogin] = useState(false);
 
   //iSuccess selector to check wheter user has leegedIn
   const { isSuccess } = useSelector(userSelector);
@@ -23,7 +23,8 @@ function App() {
   useEffect(() => {
     if (isSuccess) {
       //set button true
-      setLogin(true);
+      //setLogin(true);
+      navigate('/home')
     } else {
       localStorage.removeItem('docUrl');
       localStorage.removeItem('profileUrl');
@@ -36,12 +37,12 @@ function App() {
     localStorage.removeItem('docUrl');
     localStorage.removeItem('profileUrl');
     dispatch(clearState());
-    setLogin(false);
+    // setLogin(false);
   };
 
   return (
     <div className="App">
-      {!displayLogin ? (
+      {!isSuccess ? (
         <div className="text-center">
           {/* <div>HELLO</div> */}
           {/* <Header/> */}

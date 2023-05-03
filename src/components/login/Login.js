@@ -26,7 +26,7 @@ const Login = () => {
   // default method once component render is commpleted
   useEffect(() => {
     return () => {
-      dispatch(clearState());
+      // dispatch(clearState());
     };
   }, []);
 

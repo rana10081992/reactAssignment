@@ -165,12 +165,12 @@ const Register = () => {
     console.log('rana clicking button... ', docCompletionStatus, photoCompletionStatus);
     console.log('rana... doc url is.. ', docUrl);
     console.log('rana... photo url is.. ', photoUrl);
-    if (docUrl) {
-      localStorage.setItem('docUrl', docUrl);
-    }
-    if (photoUrl) {
-      localStorage.setItem('profileUrl', photoUrl);
-    }
+    // if (docUrl) {
+    //   localStorage.setItem('docUrl', docUrl);
+    // }
+    // if (photoUrl) {
+    //   localStorage.setItem('profileUrl', photoUrl);
+    // }
     // read value from db and pass it to payload
     if (userDetail) {
       console.log('rana.... redux store value user details are ', userDetail);

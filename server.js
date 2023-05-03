@@ -48,7 +48,7 @@ app.post('/login', async (req, res) => {
   const users = JSON.parse(file);
 
   // console.log('rana db users are... ', users);
-  const obj = users.find((item) => Number(item.documentId) === Number(payload.userName));
+  const obj = users.find((item) => Number(item.phoneNo) === Number(payload.userName));
   console.log('rana finded user is... ', obj);
   if (obj) {
     res.status(200).json({ obj });

@@ -27,13 +27,7 @@ const ProductDetails = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    console.log('rana....  call action ');
     dispatch(prouductDetails({}));
-    if (userDetail) {
-      // console.log('rana able to read user detail from redux store..');
-    } else {
-      // console.log('rana user detail fetch failed');
-    }
   }, []);
 
   // method to set and display the user profile

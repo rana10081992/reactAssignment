@@ -28,7 +28,6 @@ const Home = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    console.log('rana....  call action ');
     dispatch(prouductDetails({}));
     if (userDetail) {
       // console.log('rana able to read user detail from redux store..');

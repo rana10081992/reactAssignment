@@ -12,6 +12,50 @@ import * as Yup from 'yup';
 import { signUpCompletion, userSelector, clearState } from '../../feature/UserSlice';
 import API_BASE_URL from './../../App.constant';
 
+export const handleExistingUser = (formData, existingUserDetails, dispatch) => {
+  // send form data document id as number
+  if (formData) {
+    const obj = existingUserDetails.find(
+      (item) => Number(item.phoneNo) === Number(formData.phoneNo)
+    );
+    if (obj) {
+      toast.error('user already exists with phone no ' + obj.phoneNo);
+    } else {
+      toast.success('new user can go for registration');
+
+      let formdocumentType = formData.documentId;
+      let documentType = '';
+      switch (formdocumentType) {
+        case 'Pan Card':
+          documentType = '1';
+          break;
+        case 'Adhar Card':
+          documentType = '2';
+          break;
+        case 'Voter Card':
+          documentType = '3';
+          break;
+        default:
+          alert('Please select document type');
+      }
+      const userDetails = {
+        documentType: documentType,
+        name: formData.name,
+        address: formData.address,
+        phoneNo: formData.phoneNo,
+        password: formData.password
+      };
+      console.log('rana.. ', userDetails);
+      // dispatch signup/registration action on method call
+      dispatch(signupUser(userDetails));
+    }
+  } else {
+    toast.error('invalid form data');
+  }
+};
+
+export 
+
 const Register = () => {
   let existingUserDetails = [];
   // const location = useLocation();
@@ -121,47 +165,6 @@ const Register = () => {
     return result;
   };
 
-  const handleExistingUser = (formData) => {
-    // send form data document id as number
-    if (formData) {
-      const obj = existingUserDetails.find(
-        (item) => Number(item.phoneNo) === Number(formData.phoneNo)
-      );
-      if (obj) {
-        toast.error('user already exists with phone no ' + obj.phoneNo);
-      } else {
-        toast.success('new user can go for registration');
-
-        let formdocumentType = formData.documentId;
-        let documentType = '';
-        switch (formdocumentType) {
-          case 'Pan Card':
-            documentType = '1';
-            break;
-          case 'Aadhar Card':
-            documentType = '2';
-            break;
-          case 'Voter Card':
-            documentType = '3';
-            break;
-          default:
-            alert('Please select document type');
-        }
-        const userDetails = {
-          documentType: documentType,
-          name: formData.name,
-          address: formData.address,
-          phoneNo: formData.phoneNo,
-          password: formData.password
-        };
-        // dispatch signup/registration action on method call
-        dispatch(signupUser(userDetails));
-      }
-    } else {
-      toast.error('invalid form data');
-    }
-  };
-
   function handleDocumentChange(event) {
     setFile(event.target.files[0]);
   }
@@ -243,7 +246,7 @@ const Register = () => {
 
   // handle the onSubmit sceanrio
   const onRegistrationSubmit = (data) => {
-    handleExistingUser(data);
+    handleExistingUser(data, existingUserDetails, dispatch);
   };
 
   const productOptions = documents.map((document, key) => (
@@ -366,13 +369,15 @@ const Register = () => {
           <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
             <input
               type="file"
+              id="document_upload_input"
               onChange={handleDocumentChange}
               accept="/image/*"
               className="form-control"
             />
             <button
               onClick={handleDocumentUpload}
-              className="btn btn-outline-primary mr-2 px-3 mt-3">
+              className="btn btn-outline-primary mr-2 px-3 mt-3"
+              id="document_button">
               Upload Document
             </button>
             <p className="mt-3">{percent} % done</p>
@@ -391,7 +396,10 @@ const Register = () => {
             </button>
             <p className="mt-3">{photoPercent} % done</p>
           </div>
-          <button onClick={handlePhotoSubmission} className="btn btn-primary float-end mx-3 my-3 ">
+          <button
+            onClick={handlePhotoSubmission}
+            className="btn btn-primary float-end mx-3 my-3 "
+            id="document_upload_submit">
             Finish
           </button>
         </div>

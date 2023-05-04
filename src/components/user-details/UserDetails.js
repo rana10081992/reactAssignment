@@ -4,6 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { prouductDetails, userSelector } from '../../feature/UserSlice';
 // import './UserDetails.css';
 
+export function getDayType(val, documentType) {
+  switch (val) {
+    case '1':
+      documentType = 'Pan Card';
+      break;
+    case '2':
+      documentType = 'Adhaar Card';
+      break;
+    case '3':
+      documentType = 'Voter Card';
+      break;
+    default:
+      documentType = '';
+  }
+  return documentType;
+}
+
 // user details component to display the home details
 const UserDetails = () => {
   // variable to handle the navigation
@@ -33,30 +50,13 @@ const UserDetails = () => {
     if (userDetail) {
       imageURL = userDetail.docUrl;
       userProfileURL = userDetail.photoUrl;
-      documentType = getDayType(userDetail.documentType);
+      documentType = getDayType(userDetail.documentType, documentType);
       setDocType(documentType);
       // console.log('rana able to read user detail from redux store..');
     } else {
       // console.log('rana user detail fetch failed');
     }
   }, []);
-
-  function getDayType(val) {
-    switch (val) {
-      case '1':
-        documentType = 'Pan Card';
-        break;
-      case '2':
-        documentType = 'Adhaar Card';
-        break;
-      case '3':
-        documentType = 'Voter Card';
-        break;
-      default:
-        documentType = '';
-    }
-    return documentType;
-  }
 
   // UI part
   return (

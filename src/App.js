@@ -21,16 +21,12 @@ function App() {
     if (isSuccess) {
       navigate('/home');
     } else {
-      localStorage.removeItem('docUrl');
-      localStorage.removeItem('profileUrl');
       navigate('/login');
     }
   }, [isSuccess]);
 
   const logoutUser = () => {
     // clear photo data
-    localStorage.removeItem('docUrl');
-    localStorage.removeItem('profileUrl');
     dispatch(clearState());
   };
 

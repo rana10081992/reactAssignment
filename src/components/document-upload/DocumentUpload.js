@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useSelector, useDispatch } from 'react-redux';
 import storage from '../../firebase.config';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { signUpCompletion, userSelector } from '../../feature/UserSlice';
 
 const DocumentUpload = () => {
   // variable to handle the navigation
   const navigate = useNavigate();
+
+  // to dispatch the action
+  const dispatch = useDispatch();
 
   // State to store uploaded file
   const [file, setFile] = useState(''); // progress
   const [photofile, setPhoptoFile] = useState(''); // progress
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [photoPercent, setPhotoPercent] = useState(0);
-
-  const [docCompletionStatus, setDocCompletion] = useState(false);
-  const [photoCompletionStatus, setPhotoCompletion] = useState(false);
   const [docUrl, setDocUrl] = useState('');
   const [photoUrl, setProfileUrl] = useState('');
+
+  // variables to read fetch, success and error from redux store
+  const { userDetail } = useSelector(userSelector);
 
   function handleDocumentChange(event) {
     setFile(event.target.files[0]);
@@ -28,40 +32,45 @@ const DocumentUpload = () => {
   }
 
   const handlePhotoSubmission = () => {
-    console.log('rana clicking button... ', docCompletionStatus, photoCompletionStatus);
-    console.log('rana... doc url is.. ', docUrl);
-    console.log('rana... photo url is.. ', photoUrl);
-    if (docUrl) {
-      localStorage.setItem('docUrl', docUrl);
+    // read value from db and pass it to payload
+    if (userDetail) {
+      const photoSubmitPayload = {
+        address: userDetail.address,
+        documentType: userDetail.documentType,
+        name: userDetail.name,
+        phoneNo: userDetail.phoneNo,
+        userId: userDetail.userId,
+        docUrl: docUrl,
+        photoUrl: photoUrl
+      };
+      // dispatch login action on method call
+      dispatch(signUpCompletion(photoSubmitPayload));
+      navigate('/home');
     }
-    if (photoUrl) {
-      localStorage.setItem('profileUrl', photoUrl);
-    }
-    navigate('/home');
   };
 
   const handleDocumentUpload = () => {
     if (!file) {
       alert('Please upload an image first!');
+    } else {
+      const storageRef = ref(storage, `/files/${file.name}`); // progress can be paused and resumed. It also exposes progress updates. // Receives the storage reference and the file to upload.
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100); // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            // setDocCompletion(true);
+            setDocUrl(url);
+          });
+        }
+      );
     }
-    const storageRef = ref(storage, `/files/${file.name}`); // progress can be paused and resumed. It also exposes progress updates. // Receives the storage reference and the file to upload.
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100); // update progress
-        setPercent(percent);
-      },
-      (err) => console.log(err),
-      () => {
-        // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log('rana... profile doc url is', url);
-          setDocCompletion(true);
-          setDocUrl(url);
-        });
-      }
-    );
   };
 
   const handlePropfilePhotoUpload = () => {
@@ -80,11 +89,8 @@ const DocumentUpload = () => {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log('rana... profile doc url is', url);
-          setPhotoCompletion(true);
+          // setPhotoCompletion(true);
           setProfileUrl(url);
-          console.log('rana...... checking button', docCompletionStatus);
-          console.log('rana...... checking profile button', photoCompletionStatus);
         });
       }
     );

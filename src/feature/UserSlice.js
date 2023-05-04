@@ -44,7 +44,6 @@ export const signupUser = createAsyncThunk(
         })
       });
       let data = await response.json();
-      console.log('rana... signup response is...  ', data);
       if (response.status === 200) {
         return { ...data };
       } else {
@@ -111,7 +110,6 @@ export const loginUser = createAsyncThunk('/login', async ({ phoneNo, password }
 });
 
 export const prouductDetails = createAsyncThunk('/productDetails', async (undef, thunkAPI) => {
-  console.log('rana.... inside API...');
   try {
     const response = await fetch(`${API_BASE_URL}/productDetails`, {
       method: 'GET'
@@ -121,7 +119,6 @@ export const prouductDetails = createAsyncThunk('/productDetails', async (undef,
       // },
       // body: JSON.stringify({})
     });
-    console.log('rana inside API...');
     let data = await response.json();
     if (response.status === 200) {
       return { ...data };

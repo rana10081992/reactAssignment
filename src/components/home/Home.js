@@ -19,8 +19,6 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  // const imageURL = localStorage.getItem('docUrl') || null;
-
   // const updateUserDoc = () => {
   //   // on True route to document upload section
   //   navigate('/documentUpload');

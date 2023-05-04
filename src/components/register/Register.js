@@ -45,7 +45,6 @@ export const handleExistingUser = (formData, existingUserDetails, dispatch) => {
         phoneNo: formData.phoneNo,
         password: formData.password
       };
-      console.log('rana.. ', userDetails);
       // dispatch signup/registration action on method call
       dispatch(signupUser(userDetails));
     }
@@ -76,8 +75,6 @@ const Register = () => {
   const [percent, setPercent] = useState(0); // Handle file upload event and update state
   const [photoPercent, setPhotoPercent] = useState(0);
 
-  const [docCompletionStatus, setDocCompletion] = useState(false);
-  const [photoCompletionStatus, setPhotoCompletion] = useState(false);
   const [docUrl, setDocUrl] = useState('');
   const [photoUrl, setProfileUrl] = useState('');
 
@@ -111,7 +108,7 @@ const Register = () => {
       // dispatch(clearState());
     }
     if (userDetail) {
-      console.log('rana read from redux store......... ', userDetail);
+      // console.log('rana read from redux store......... ', userDetail);
     }
     //handle success part
     if (isSuccess) {
@@ -176,7 +173,6 @@ const Register = () => {
   const handlePhotoSubmission = () => {
     // read value from db and pass it to payload
     if (userDetail) {
-      console.log('rana.... redux store value user details are ', userDetail);
       const photoSubmitPayload = {
         address: userDetail.address,
         documentType: userDetail.documentType,
@@ -186,7 +182,6 @@ const Register = () => {
         docUrl: docUrl,
         photoUrl: photoUrl
       };
-      console.log('rana666666666666......', photoSubmitPayload);
       // dispatch login action on method call
       dispatch(signUpCompletion(photoSubmitPayload));
     }
@@ -210,8 +205,7 @@ const Register = () => {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log('rana... profile doc url is', url);
-          setDocCompletion(true);
+          //setDocCompletion(true);
           setDocUrl(url);
         });
       }
@@ -234,11 +228,8 @@ const Register = () => {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log('rana... profile doc url is', url);
-          setPhotoCompletion(true);
+          //setPhotoCompletion(true);
           setProfileUrl(url);
-          console.log('rana...... checking button', docCompletionStatus);
-          console.log('rana...... checking profile button', photoCompletionStatus);
         });
       }
     );

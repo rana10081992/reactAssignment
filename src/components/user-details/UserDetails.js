@@ -42,10 +42,6 @@ const UserDetails = () => {
 
   // useEffect default method to do the action once render is complete
   useEffect(() => {
-    console.log(
-      'rana99999999999999999999999999999999999999999999999999999999999999999999999999....  call action '
-    );
-    console.log('rana... ', imageURL);
     dispatch(prouductDetails({}));
     if (userDetail) {
       imageURL = userDetail.docUrl;

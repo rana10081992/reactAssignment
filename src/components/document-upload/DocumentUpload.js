@@ -93,12 +93,16 @@ const DocumentUpload = () => {
     <div>
       <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
         <input
+          id="document_upload_input"
           type="file"
           onChange={handleDocumentChange}
           accept="/image/*"
           className="form-control"
         />
-        <button onClick={handleDocumentUpload} className="btn btn-outline-primary mr-2 px-3 mt-3">
+        <button
+          onClick={handleDocumentUpload}
+          className="btn btn-outline-primary mr-2 px-3 mt-3"
+          id="document_button">
           Upload Document
         </button>
         <p className="mt-3">{percent} % done</p>
@@ -123,7 +127,10 @@ const DocumentUpload = () => {
         disabled={!docCompletionStatus && !photoCompletionStatus}>
         Finish
       </button> */}
-      <button onClick={handlePhotoSubmission} className="btn btn-primary float-end mx-3 my-3 ">
+      <button
+        onClick={handlePhotoSubmission}
+        className="btn btn-primary float-end mx-3 my-3 "
+        id="document_upload_submit">
         Finish
       </button>
     </div>

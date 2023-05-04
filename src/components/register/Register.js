@@ -63,7 +63,6 @@ const Register = () => {
     }
     if (initialSignUp) {
       setCount(1);
-      console.log('rana.... sign up part completeds ', initialSignUp);
       toast.success('user regsitered successfully');
       // dispatch(clearState());
     }
@@ -123,7 +122,6 @@ const Register = () => {
   };
 
   const handleExistingUser = (formData) => {
-    // const formDocumentId = Number(formData.documentId);
     // send form data document id as number
     if (formData) {
       const obj = existingUserDetails.find(
@@ -133,9 +131,6 @@ const Register = () => {
         toast.error('user already exists with phone no ' + obj.phoneNo);
       } else {
         toast.success('new user can go for registration');
-        // get return url from location state or default to home page
-        // const { from } = location.state || { from: { pathname: '/' } };
-        // create payload for user registration with documnet id as number type
 
         let formdocumentType = formData.documentId;
         let documentType = '';
@@ -159,11 +154,8 @@ const Register = () => {
           phoneNo: formData.phoneNo,
           password: formData.password
         };
-        console.log('rana3333333333333333333333333333... form is is... ', formData);
         // dispatch signup/registration action on method call
         dispatch(signupUser(userDetails));
-        // setCount(1);
-        console.log('rana action called.............', count);
       }
     } else {
       toast.error('invalid form data');
@@ -179,15 +171,6 @@ const Register = () => {
   }
 
   const handlePhotoSubmission = () => {
-    console.log('rana clicking button... ', docCompletionStatus, photoCompletionStatus);
-    console.log('rana... doc url is.. ', docUrl);
-    console.log('rana... photo url is.. ', photoUrl);
-    // if (docUrl) {
-    //   localStorage.setItem('docUrl', docUrl);
-    // }
-    // if (photoUrl) {
-    //   localStorage.setItem('profileUrl', photoUrl);
-    // }
     // read value from db and pass it to payload
     if (userDetail) {
       console.log('rana.... redux store value user details are ', userDetail);

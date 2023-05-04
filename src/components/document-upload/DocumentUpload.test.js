@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
@@ -16,6 +17,7 @@ describe('Document Upload', () => {
   beforeEach(() => {
     fetch.mockClear();
   });
+  const testFile = new File(['hello'], 'hello.png', { type: 'image/png' });
 
   test('renders document upload link', () => {
     render(
@@ -40,5 +42,35 @@ describe('Document Upload', () => {
     // const linkElement = screen.getByText(' % done');
     // const input = getByLabelText('% done');
     // expect(screen.getByDisplayValue('% done')).toBeInTheDocument();
+  });
+
+  test('stimulating handleDocumentChange  input onchange handler for document upload', () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DocumentUpload />
+        </BrowserRouter>
+      </Provider>
+    );
+    act(() => {
+      /* fire events that update state */
+      const fileInput = document.getElementById('document_upload_input');
+      userEvent.upload(fileInput, testFile);
+    });
+  });
+
+  test('stimulating handlePhotoSubmission button click handler for Finish button', () => {
+    const component = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DocumentUpload />
+        </BrowserRouter>
+      </Provider>
+    );
+    act(() => {
+      /* fire events that update state */
+      const button = document.getElementById('document_upload_submit');
+      fireEvent.click(button);
+    });
   });
 });

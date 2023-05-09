@@ -4,13 +4,13 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
 import Register, { handleExistingUser } from './Register';
-import React from 'react';
+import React from 'react';import configureStore from 'redux-mock-store';
+
+const middlewares = []
+const mockStore = configureStore(middlewares);
+
 describe('MovieApiService', () => {
-  global.fetch = jest.fn(() =>
-    Promise.resolve({
-      json: () => Promise.resolve({ rates: { CAD: 1.42 } })
-    })
-  );
+  global.fetch = jest.fn();
 
   beforeEach(() => {
     fetch.mockClear();
@@ -36,19 +36,6 @@ describe('MovieApiService', () => {
   }));
 
   const testFile = new File(['hello'], 'hello.png', { type: 'image/png' });
-
-  test('renders learn react link', () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Register />
-        </BrowserRouter>
-      </Provider>
-    );
-    const linkElement = screen.getByText('Address');
-    screen.debug(linkElement);
-    expect(linkElement).toBeInTheDocument();
-  });
 
   test('stimulating handleExistingUser with mock for existing user', () => {
     const formdata = {
@@ -179,4 +166,58 @@ describe('MovieApiService', () => {
     );
     expect(mockDispatch).toHaveBeenCalled();
   });
+
+  
+test('renders learn react link', () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve([{
+        phoneNo: '12345'
+      }])
+    })
+  );
+  const initialState = {
+    user: {
+      isSuccess: true,
+      isError: false
+    }
+  }
+  const store = mockStore(initialState)
+
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Register />
+      </BrowserRouter>
+    </Provider>
+  );
+  const nextBtn = screen.getByText('Next');
+  fireEvent.click(nextBtn, { phoneNo: '12345'});
+  expect(nextBtn).toBeInTheDocument();
+});
+
+test('renders learn react link', () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve()
+    })
+  );
+  const initialState = {
+    user: {
+      isSuccess: false,
+      isError: true, initialSignUp: true, signUpErrorMsg: 'error'
+    }
+  }
+  const store = mockStore(initialState);
+
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Register />
+      </BrowserRouter>
+    </Provider>
+  );
+  const linkElement = screen.getByText('Upload profile photo');
+  expect(linkElement).toBeInTheDocument();
+});
 });

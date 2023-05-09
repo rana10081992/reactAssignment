@@ -71,6 +71,7 @@ const Login = () => {
         <div className="form-group">
           <label>Phone No</label>
           <input
+            data-testid="username-input"
             type="text"
             name="username"
             value={username}
@@ -82,6 +83,7 @@ const Login = () => {
         <div className="form-group">
           <label>Password</label>
           <input
+            data-testid="password-input"
             type="password"
             name="password"
             value={password}
@@ -91,7 +93,7 @@ const Login = () => {
           {submitted && !password && <div className="invalid-feedback">Password is required</div>}
         </div>
         <div className="form-group flex mt-3 justify-center items-center">
-          <button className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
             Submit
           </button>

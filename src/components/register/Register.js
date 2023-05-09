@@ -106,9 +106,6 @@ const Register = () => {
       toast.success('user regsitered successfully');
       // dispatch(clearState());
     }
-    if (userDetail) {
-      // console.log('rana read from redux store......... ', userDetail);
-    }
     //handle success part
     if (isSuccess) {
       // on True route to Home
@@ -253,7 +250,8 @@ const Register = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onRegistrationSubmit}
-            render={({ errors, touched }) => (
+            >
+            {({ errors, touched }) => (
               <>
                 <Form>
                   <div className="form-group">
@@ -352,7 +350,7 @@ const Register = () => {
                 />
               </>
             )}
-          />
+          </Formik>
         </div>
       ) : (
         <div>

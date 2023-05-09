@@ -44,7 +44,7 @@ describe('Document Upload', () => {
     // expect(screen.getByDisplayValue('% done')).toBeInTheDocument();
   });
 
-  test('stimulating handleDocumentChange  input onchange handler for document upload', () => {
+  test('stimulating handleDocumentChange input onchange handler for document upload', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>

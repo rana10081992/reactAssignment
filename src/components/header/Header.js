@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const listHeader = ['Home', 'UserDetails', 'ProductDetails'];
+  const listHeader = ['Home', 'ProductDetails'];
 
   return (
     <div className="bg-yellow-600 py-4">

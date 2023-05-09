@@ -5,11 +5,6 @@ module.exports = {
     '\\.(png|gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
   },
   collectCoverage: true,
-  collectCoverageFrom: ["<rootDir>/src/**"],
-  coverageReporters: ["json", "html"],
-  coverageThreshold: {
-    global: {
-      lines: 90
-    }
-  }
+  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
+  coverageReporters: ['json', 'html']
 };

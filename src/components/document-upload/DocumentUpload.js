@@ -76,24 +76,25 @@ const DocumentUpload = () => {
   const handlePropfilePhotoUpload = () => {
     if (!photofile) {
       alert('Please upload an image first!');
+    } else {
+      const storageRef = ref(storage, `/files/${photofile.name}`); // progress can be paused and resumed. It also exposes progress updates. // Receives the storage reference and the file to upload.
+      const uploadTask = uploadBytesResumable(storageRef, photofile);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100); // update progress
+          setPhotoPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            // setPhotoCompletion(true);
+            setProfileUrl(url);
+          });
+        }
+      );
     }
-    const storageRef = ref(storage, `/files/${photofile.name}`); // progress can be paused and resumed. It also exposes progress updates. // Receives the storage reference and the file to upload.
-    const uploadTask = uploadBytesResumable(storageRef, photofile);
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100); // update progress
-        setPhotoPercent(percent);
-      },
-      (err) => console.log(err),
-      () => {
-        // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          // setPhotoCompletion(true);
-          setProfileUrl(url);
-        });
-      }
-    );
   };
   return (
     <div>

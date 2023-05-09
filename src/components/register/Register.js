@@ -36,7 +36,8 @@ export const handleExistingUser = (formData, existingUserDetails, dispatch) => {
           documentType = '3';
           break;
         default:
-          alert('Please select document type');
+          // alert('Please select document type');
+          break;
       }
       const userDetails = {
         documentType: documentType,
@@ -52,8 +53,6 @@ export const handleExistingUser = (formData, existingUserDetails, dispatch) => {
     toast.error('invalid form data');
   }
 };
-
-export 
 
 const Register = () => {
   let existingUserDetails = [];

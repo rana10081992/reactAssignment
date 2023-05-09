@@ -99,7 +99,7 @@ app.post('/register', async (req, res) => {
     };
     // pushing new object to existing array
     users.push(userDetail);
-    console.log('rana..... users... ', users);
+    // console.log('rana..... users... ', users);
     // write updated data to the DB/JSON file
     await fs.writeFile(userDetailFileName, JSON.stringify(users));
     let userResp = returnData(userDetail);
@@ -116,17 +116,19 @@ app.post('/uploadPhoto', async (req, res) => {
   const file = await fs.readFile(userDetailFileName);
   let users = JSON.parse(file);
 
-  console.log('rana db users are... ', users);
+  // console.log('rana db users are... ', users);
   const obj = users.find((item) => Number(item.phoneNo) === Number(userDetails.phoneNo));
-  console.log('rana........ ', obj);
+  console.log('rana finded user details555555555555555555........ ', obj);
+  let userResp = saveDataforPhotoUpload(userDetails, obj);
   if (obj) {
-    users = users.map((u) => (u.phoneNo !== obj.phoneNo ? u : userDetails));
+    users = users.map((u) => (u.phoneNo !== obj.phoneNo ? u : userResp));
     // write updated data to the DB/JSON file
+    console.log('rana,,,,,, ', users);
+    let apiRes = returnData(userResp);
     await fs.writeFile(userDetailFileName, JSON.stringify(users));
-    let userResp = returnData(userDetails);
     res.json({
       res: 200,
-      userDetails: userResp,
+      userDetails: apiRes,
       msg: 'registration done successfully'
     });
   } else {
@@ -155,6 +157,22 @@ function returnData(user) {
       phoneNo: user.phoneNo || null,
       photoUrl: user.photoUrl || null,
       userId: user.userId || null
+    });
+  }
+}
+
+function saveDataforPhotoUpload(user, obj) {
+  console.log('rana password is... ', obj.password);
+  if (user) {
+    return (user = {
+      address: user.address || null,
+      docUrl: user.docUrl || null,
+      documentType: user.documentType || null,
+      name: user.name || null,
+      phoneNo: user.phoneNo || null,
+      photoUrl: user.photoUrl || null,
+      userId: user.userId || null,
+      password: obj.password || null
     });
   }
 }

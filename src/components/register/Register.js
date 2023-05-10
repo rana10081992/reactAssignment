@@ -189,7 +189,7 @@ const Register = () => {
     console.log('rana.... doc value... ', file);
     if (!file) {
       alert('Please upload an image first!');
-    }
+    } else {
     const storageRef = ref(storage, `/files/${file.name}`); // progress can be paused and resumed. It also exposes progress updates. // Receives the storage reference and the file to upload.
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
@@ -207,13 +207,14 @@ const Register = () => {
         });
       }
     );
+    }
   };
 
   const handlePropfilePhotoUpload = () => {
     console.log('rana.... phot file value... ', photofile);
     if (!photofile) {
       alert('Please upload an image first!');
-    }
+    } else {
     const storageRef = ref(storage, `/files/${photofile.name}`); // progress can be paused and resumed. It also exposes progress updates. // Receives the storage reference and the file to upload.
     const uploadTask = uploadBytesResumable(storageRef, photofile);
     uploadTask.on(
@@ -231,6 +232,7 @@ const Register = () => {
         });
       }
     );
+    }
   };
 
   // handle the onSubmit sceanrio
@@ -358,7 +360,7 @@ const Register = () => {
           <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
             <input
               type="file"
-              id="document_upload_input"
+              data-testid="document_upload_input"
               onChange={handleDocumentChange}
               accept="/image/*"
               className="form-control"
@@ -373,6 +375,7 @@ const Register = () => {
           </div>
           <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
             <input
+              data-testid="photo_upload_input"
               type="file"
               onChange={handleProfilePhotoChange}
               accept="/image/*"

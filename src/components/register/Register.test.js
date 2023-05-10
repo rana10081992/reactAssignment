@@ -1,12 +1,24 @@
 import '@testing-library/jest-dom/extend-expect';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import Register, { handleExistingUser } from './Register';
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import store from '../../store';
+// import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
+jest.mock('../../feature/UserSlice', () => ({
+  ...jest.requireActual('../../feature/UserSlice'),
+  signUpCompletion: jest.fn().mockReturnValueOnce({type: '/uploadPhoto'})
+}));
+
+jest.mock('firebase/storage', () => ({
+  ...jest.requireActual('firebase/storage'),
+  uploadBytesResumable: jest.fn().mockReturnValue({ on: jest.fn()})
+}));
+
+
+const testFile = new File(['hello'], 'hello.png', { type: 'image/png' });
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
@@ -27,8 +39,6 @@ describe('MovieApiService', () => {
     photoUrl: null,
     userId: 1011
   };
-
-  const testFile = new File(['hello'], 'hello.png', { type: 'image/png' });
 
   const mockDispatch = jest.fn();
   const mockSelector = jest.fn();
@@ -189,6 +199,25 @@ describe('MovieApiService', () => {
     expect(mockDispatch).toHaveBeenCalled();
   });
 
+  it('stimulating handleExistingUser with no data', () => {
+    handleExistingUser(
+      null,
+      [
+        {
+          address: '1234 www',
+          docUrl: null,
+          documentId: 'Voter Card',
+          name: 'Test 55',
+          phoneNo: 9998881133,
+          photoUrl: null,
+          userId: 1012
+        }
+      ],
+      mockDispatch
+    );
+    expect(mockDispatch).toHaveBeenCalled();
+  });
+
   test('renders learn react link', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -247,13 +276,13 @@ describe('MovieApiService', () => {
     expect(linkElement).toBeInTheDocument();
   });
 
-  test('stimulating handleDocumentChange  input onchange handler for document upload', () => {
+  test('stimulating handleDocumentChange input onchange handler for document upload', () => {
     const initialState = {
       user: {
         isSuccess: false,
         isError: true,
         initialSignUp: true,
-        signUpErrorMsg: 'error'
+        signUpErrorMsg: 'error',
       }
     };
     const store = mockStore(initialState);
@@ -264,14 +293,18 @@ describe('MovieApiService', () => {
         </BrowserRouter>
       </Provider>
     );
+    const fileInput = screen.getByTestId('document_upload_input');
+    const uploadBtn = screen.getByText('Upload Document');
     act(() => {
       /* fire events that update state */
-      const fileInput = document.getElementById('document_upload_input');
-      userEvent.upload(fileInput, testFile);
+      fireEvent.click(uploadBtn);
+      fireEvent.change(fileInput, { target: { files: [testFile] } });
+      fireEvent.click(uploadBtn);
     });
+    expect(fileInput).toBeInTheDocument();
   });
 
-  test('stimulating handlePhotoSubmission button click handler for Finish button', () => {
+  test('stimulating handlePropfilePhotoUpload button click handler for Finish button', () => {
     const initialState = {
       user: {
         isSuccess: false,
@@ -288,10 +321,65 @@ describe('MovieApiService', () => {
         </BrowserRouter>
       </Provider>
     );
+    const fileInput = screen.getByTestId('photo_upload_input');
+    const uploadBtn = screen.getByText('Upload profile photo');
     act(() => {
       /* fire events that update state */
-      const button = document.getElementById('document_upload_submit');
-      fireEvent.click(button);
+      fireEvent.click(uploadBtn);
+      fireEvent.change(fileInput, { target: { files: [testFile] } });
+      fireEvent.click(uploadBtn);
     });
+    expect(fileInput).toBeInTheDocument();
+  });
+
+  test('stimulating handlePhotoSubmission button click handler for Finish button', () => {
+    const initialState = {
+      user: {
+        isSuccess: false,
+        isError: true,
+        initialSignUp: true,
+        signUpErrorMsg: 'error',
+        userDetail: {}
+      }
+    };
+    const store = mockStore(initialState);
+    const component = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Register />
+        </BrowserRouter>
+      </Provider>
+    );
+    const fileInput = screen.getByText('Finish');
+    act(() => {
+      /* fire events that update state */
+      fireEvent.click(fileInput);
+    });
+    expect(fileInput).toBeInTheDocument();
+  });
+
+  test('stimulating handlePhotoSubmission button click handler for Finish button', () => {
+    const initialState = {
+      user: {
+        isSuccess: false,
+        isError: true,
+        initialSignUp: true,
+        signUpErrorMsg: 'error',
+      }
+    };
+    const store = mockStore(initialState);
+    const component = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Register />
+        </BrowserRouter>
+      </Provider>
+    );
+    const fileInput = screen.getByText('Finish');
+    act(() => {
+      /* fire events that update state */
+      fireEvent.click(fileInput);
+    });
+    expect(fileInput).toBeInTheDocument();
   });
 });

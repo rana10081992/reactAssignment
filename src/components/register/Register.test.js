@@ -151,6 +151,26 @@ describe('MovieApiService', () => {
     expect(mockDispatch).toHaveBeenCalled();
   });
 
+  it('stimulating handleExistingUser for invalid form data', () => {
+    const panCardFormdata = undefined;
+    handleExistingUser(
+      panCardFormdata,
+      [
+        {
+          address: '1234 www',
+          docUrl: null,
+          documentId: 'Voter Card',
+          name: 'Test 55',
+          phoneNo: 9998881133,
+          photoUrl: null,
+          userId: 1012
+        }
+      ],
+      mockDispatch
+    );
+    expect(mockDispatch).toHaveBeenCalled();
+  });
+
   it('stimulating handleExistingUser with mock for different user with default as option', () => {
     const panCardFormdata = {
       address: '1234 www',

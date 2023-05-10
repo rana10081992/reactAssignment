@@ -56,6 +56,21 @@ describe('Document Upload', () => {
     });
   });
 
+  test('stimulating handleDocumentChange  input onchange handler for document upload', () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DocumentUpload />
+        </BrowserRouter>
+      </Provider>
+    );
+    act(() => {
+      /* fire events that update state */
+      const fileInput = document.getElementById('profile_upload_input');
+      userEvent.upload(fileInput, testFile);
+    });
+  });
+
   test('stimulating handlePhotoSubmission button click handler for Finish button', () => {
     const component = render(
       <Provider store={store}>

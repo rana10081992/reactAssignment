@@ -25,7 +25,9 @@ describe('Home Screen', () => {
         </BrowserRouter>
       </Provider>
     );
-    const linkElement = screen.getByText('The Open Innovation Report 2023: how corporate-startup collaboration is the key to thriving amid economic turbulence');
+    const linkElement = screen.getByText(
+      'The Open Innovation Report 2023: how corporate-startup collaboration is the key to thriving amid economic turbulence'
+    );
     expect(linkElement).toBeInTheDocument();
   });
 });

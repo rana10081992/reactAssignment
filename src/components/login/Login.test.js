@@ -6,12 +6,12 @@ import Login from './Login';
 import React from 'react';
 import configureStore from 'redux-mock-store';
 
-const middlewares = []
+const middlewares = [];
 const mockStore = configureStore(middlewares);
 
 jest.mock('../../feature/UserSlice', () => ({
   ...jest.requireActual('../../feature/UserSlice'),
-  loginUser: jest.fn().mockReturnValueOnce({type: '/login'})
+  loginUser: jest.fn().mockReturnValueOnce({ type: '/login' })
 }));
 
 describe('Login screen', () => {
@@ -26,14 +26,13 @@ describe('Login screen', () => {
   });
 
   test('renders learn react link', () => {
-  
     const initialState = {
       user: {
         isSuccess: true,
         isError: false
       }
-    }
-    const store = mockStore(initialState)
+    };
+    const store = mockStore(initialState);
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -46,14 +45,13 @@ describe('Login screen', () => {
   });
 
   test('renders learn react link 2', () => {
-  
     const initialState = {
       user: {
         isSuccess: false,
         isError: true
       }
-    }
-    const store = mockStore(initialState)
+    };
+    const store = mockStore(initialState);
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -66,14 +64,13 @@ describe('Login screen', () => {
   });
 
   test('handle form', () => {
-  
     const initialState = {
       user: {
         isSuccess: true,
         isError: false
       }
-    }
-    const store = mockStore(initialState)
+    };
+    const store = mockStore(initialState);
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -104,14 +101,13 @@ describe('Login screen', () => {
   });
 
   test('handle form', () => {
-  
     const initialState = {
       user: {
         isSuccess: true,
         isError: false
       }
-    }
-    const store = mockStore(initialState)
+    };
+    const store = mockStore(initialState);
     render(
       <Provider store={store}>
         <BrowserRouter>

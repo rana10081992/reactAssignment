@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
-import UserDetails, {getDayType} from './UserDetails';
+import UserDetails, { getDayType } from './UserDetails';
 import React from 'react';
 
 describe('Document Upload', () => {
@@ -43,18 +43,18 @@ describe('Document Upload', () => {
   });
 
   test('renders document upload and check done text presence for dayType 1', () => {
-    getDayType('1','');
+    getDayType('1', '');
   });
 
   test('renders document upload and check done text presence for dayType 2', () => {
-    getDayType('2','');
+    getDayType('2', '');
   });
 
   test('renders document upload and check done text presence for dayType 3', () => {
-    getDayType('3','');
+    getDayType('3', '');
   });
 
   test('renders document upload and check done text presence for dayType 0 deafault', () => {
-    getDayType('0','');
+    getDayType('0', '');
   });
 });

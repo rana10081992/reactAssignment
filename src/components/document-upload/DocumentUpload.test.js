@@ -39,9 +39,6 @@ describe('Document Upload', () => {
         </BrowserRouter>
       </Provider>
     );
-    // const linkElement = screen.getByText(' % done');
-    // const input = getByLabelText('% done');
-    // expect(screen.getByDisplayValue('% done')).toBeInTheDocument();
   });
 
   test('stimulating handleDocumentChange  input onchange handler for document upload', () => {
@@ -73,23 +70,4 @@ describe('Document Upload', () => {
       fireEvent.click(button);
     });
   });
-
-  // test('stimulating handleDocumentUpload button click for user doc file upload', () => {
-  //   const mockFun = jest.fn();
-  //   const component = render(
-  //     <Provider store={store}>
-  //       <BrowserRouter>
-  //         <DocumentUpload />
-  //       </BrowserRouter>
-  //     </Provider>
-  //   );
-  //   // act(() => {
-  //     /* fire events that update state */
-  //     const button = document.getElementById('document_button');
-  //     fireEvent.click(button);
-  //     const alertText = screen.getByText('Please upload an image first!')
-  //     console.log('rana..... ', alertText);
-  //     expect(alertText).toBe(true);
-  //   // });
-  // });
 });

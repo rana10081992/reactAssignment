@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
-import Home from './components/home/Home';
 import store from './store';
 import DocumentUpload from './components/document-upload/DocumentUpload';
 import UserDetails from './components/user-details/UserDetails';
@@ -22,7 +21,7 @@ root.render(
           <Route path="/" element={<App />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<UserDetails />} />
             <Route path="UserDetails" element={<UserDetails />} />
             <Route path="ProductDetails" element={<ProductDetails />} />
             <Route path="documentUpload" element={<DocumentUpload />} />

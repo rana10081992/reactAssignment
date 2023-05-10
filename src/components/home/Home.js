@@ -4,7 +4,6 @@ import sopraHome from './../../assets/sopraHome.jpg';
 
 // home component to display the home details
 const Home = () => {
-
   // UI part
   return (
     <div className="text-center">

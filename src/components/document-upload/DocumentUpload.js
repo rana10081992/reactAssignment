@@ -97,50 +97,47 @@ const DocumentUpload = () => {
     }
   };
   return (
-    <div>
+    <>
       <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
         <input
           id="document_upload_input"
           type="file"
+          accept=".png, .jpg, .jpeg"
           onChange={handleDocumentChange}
-          accept="/image/*"
           className="form-control"
         />
+        <p className="mt-3">{percent} % done</p>
+        <button onClick={handleDocumentUpload}>Default</button>;
         <button
           onClick={handleDocumentUpload}
           className="btn btn-outline-primary mr-2 px-3 mt-3"
           id="document_button">
           Upload Document
         </button>
-        <p className="mt-3">{percent} % done</p>
       </div>
       <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
         <input
           type="file"
           onChange={handleProfilePhotoChange}
-          accept="/image/*"
+          accept=".png, .jpg, .jpeg"
           className="form-control"
+          id="profile_upload_input"
         />
+        <p className="mt-3">{photoPercent} % done</p>
         <button
           onClick={handlePropfilePhotoUpload}
           className="btn btn-outline-primary mr-2 px-3 mt-3">
           Upload profile photo
         </button>
-        <p className="mt-3">{photoPercent} % done</p>
       </div>
-      {/* <button
-        onClick={handlePhotoSubmission}
-        className="btn btn-outline-primary mr-2 px-3 mt-3"
-        disabled={!docCompletionStatus && !photoCompletionStatus}>
-        Finish
-      </button> */}
+      <></>
       <button
         onClick={handlePhotoSubmission}
         className="btn btn-primary float-end mx-3 my-3 "
         id="document_upload_submit">
         Finish
       </button>
-    </div>
+    </>
   );
 };
 export default DocumentUpload;

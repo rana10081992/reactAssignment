@@ -186,6 +186,7 @@ const Register = () => {
   };
 
   const handleDocumentUpload = () => {
+    console.log('rana.... doc value... ', file);
     if (!file) {
       alert('Please upload an image first!');
     }
@@ -209,6 +210,7 @@ const Register = () => {
   };
 
   const handlePropfilePhotoUpload = () => {
+    console.log('rana.... phot file value... ', photofile);
     if (!photofile) {
       alert('Please upload an image first!');
     }
@@ -249,8 +251,7 @@ const Register = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onRegistrationSubmit}
-            >
+            onSubmit={onRegistrationSubmit}>
             {({ errors, touched }) => (
               <>
                 <Form>
@@ -379,7 +380,8 @@ const Register = () => {
             />
             <button
               onClick={handlePropfilePhotoUpload}
-              className="btn btn-outline-primary mr-2 px-3 mt-3">
+              className="btn btn-outline-primary mr-2 px-3 mt-3"
+              id="profile_button">
               Upload profile photo
             </button>
             <p className="mt-3">{photoPercent} % done</p>

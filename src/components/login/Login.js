@@ -93,7 +93,7 @@ const Login = () => {
           {submitted && !password && <div className="invalid-feedback">Password is required</div>}
         </div>
         <div className="form-group flex mt-3 justify-center items-center">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn text-white bg-blue-500 hover:bg-blue-600">
             {isSuccess && <span className="spinner-border spinner-border-sm mr-1"></span>}
             Submit
           </button>

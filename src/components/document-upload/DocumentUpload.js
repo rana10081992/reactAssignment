@@ -107,7 +107,6 @@ const DocumentUpload = () => {
           className="form-control"
         />
         <p className="mt-3">{percent} % done</p>
-        <button onClick={handleDocumentUpload}>Default</button>;
         <button
           onClick={handleDocumentUpload}
           className="btn btn-outline-primary mr-2 px-3 mt-3"
@@ -126,7 +125,8 @@ const DocumentUpload = () => {
         <p className="mt-3">{photoPercent} % done</p>
         <button
           onClick={handlePropfilePhotoUpload}
-          className="btn btn-outline-primary mr-2 px-3 mt-3">
+          className="btn btn-outline-primary mr-2 px-3 mt-3"
+          id="profile_button">
           Upload profile photo
         </button>
       </div>

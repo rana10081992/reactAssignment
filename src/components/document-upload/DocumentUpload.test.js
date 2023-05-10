@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import store from '../../store';
 import DocumentUpload from './DocumentUpload';
 import React from 'react';
+import configureStore from 'redux-mock-store';
 
 describe('Document Upload', () => {
   global.fetch = jest.fn(() =>
@@ -82,6 +83,72 @@ describe('Document Upload', () => {
     act(() => {
       /* fire events that update state */
       const button = document.getElementById('document_upload_submit');
+      fireEvent.click(button);
+    });
+  });
+
+  test('stimulating photo documenmt upload method', () => {
+    const useStateMock = jest.fn();
+    const useStateSpy = (init) => [init, useStateMock];
+    jest.spyOn(React, 'useState').mockImplementation(useStateSpy);
+    const fileMock = {};
+    // Mocking the initial state of 'file' to be an empty string
+    useStateMock.mockReturnValue([fileMock, jest.fn()]);
+    const initialState = {
+      user: {
+        isSuccess: false,
+        isError: true,
+        initialSignUp: true,
+        signUpErrorMsg: 'error'
+      }
+    };
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const store = mockStore(initialState);
+    window.alert = jest.fn();
+    const component = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DocumentUpload />
+        </BrowserRouter>
+      </Provider>
+    );
+    act(() => {
+      /* fire events that update state */
+      const button = document.getElementById('document_button');
+      fireEvent.click(button);
+    });
+  });
+
+  test('stimulating photo upload method', () => {
+    const useStateMock = jest.fn();
+    const useStateSpy = (init) => [init, useStateMock];
+    jest.spyOn(React, 'useState').mockImplementation(useStateSpy);
+    const fileMock = {};
+    // Mocking the initial state of 'file' to be an empty string
+    useStateMock.mockReturnValue([fileMock, jest.fn()]);
+    const initialState = {
+      user: {
+        isSuccess: false,
+        isError: true,
+        initialSignUp: true,
+        signUpErrorMsg: 'error'
+      }
+    };
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const store = mockStore(initialState);
+    window.alert = jest.fn();
+    const component = render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DocumentUpload />
+        </BrowserRouter>
+      </Provider>
+    );
+    act(() => {
+      /* fire events that update state */
+      const button = document.getElementById('profile_button');
       fireEvent.click(button);
     });
   });

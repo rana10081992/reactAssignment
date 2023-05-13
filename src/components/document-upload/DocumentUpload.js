@@ -102,6 +102,7 @@ const DocumentUpload = () => {
         <input
           id="document_upload_input"
           type="file"
+          data-testid="document_upload_input"
           accept=".png, .jpg, .jpeg"
           onChange={handleDocumentChange}
           className="form-control"
@@ -117,6 +118,7 @@ const DocumentUpload = () => {
       <div className="bg-white justify-center items-center h-46 mt-4 p-8 w-96 mx-auto">
         <input
           type="file"
+          data-testid="photo_upload_input"
           onChange={handleProfilePhotoChange}
           accept=".png, .jpg, .jpeg"
           className="form-control"
